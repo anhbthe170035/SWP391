@@ -87,6 +87,24 @@
         button[type="submit"]:hover {
             background-color: #e53935;
         }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .3s;
+        }
+        .pagination a.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .pagination a:hover:not(.active) {
+            background-color: #ddd;
+        }
     </style>
 </head>
 <body>
@@ -159,6 +177,13 @@
                 </tr>
             </c:forEach>
         </table>
+
+        <!-- Pagination controls -->
+        <div class="pagination">
+            <c:forEach var="i" begin="1" end="${totalPages}">
+                <a href="userlist?page=${i}" class="${i == currentPage ? 'active' : ''}">${i}</a>
+            </c:forEach>
+        </div>
     </div>
 </body>
 </html>

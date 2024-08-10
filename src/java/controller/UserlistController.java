@@ -15,6 +15,7 @@ import entity.User;
 public class UserlistController extends HttpServlet {
 
     private UserDAO userDao;
+    private static final int RECORDS_PER_PAGE = 10;
 
     @Override
     public void init() throws ServletException {
@@ -27,11 +28,22 @@ public class UserlistController extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getServletPath();
         List<User> users;
+        int page = 1;
+
+        if (request.getParameter("page") != null) {
+            page = Integer.parseInt(request.getParameter("page"));
+        }
 
         if ("/userlist".equals(action)) {
-            // Handle request to get the list of users
-            users = userDao.getAllUser();
+            // Handle request to get the list of users with pagination
+            int totalRecords = userDao.getUserCount();
+            int offset = (page - 1) * RECORDS_PER_PAGE;
+
+            users = userDao.getUsersByPage(offset, RECORDS_PER_PAGE);
             request.setAttribute("userList", users);
+            request.setAttribute("currentPage", page);
+            request.setAttribute("totalPages", (int) Math.ceil((double) totalRecords / RECORDS_PER_PAGE));
+
         } else if ("/searchUser".equals(action)) {
             // Handle search request
             String searchName = request.getParameter("name");
@@ -41,9 +53,14 @@ public class UserlistController extends HttpServlet {
                 request.setAttribute("userList", users);
             } else {
                 request.setAttribute("errorMessage", "Tên tìm kiếm không hợp lệ.");
-                // Load all users to display in case of an invalid search
-                users = userDao.getAllUser();
+                // Load users with pagination in case of an invalid search
+                int totalRecords = userDao.getUserCount();
+                int offset = (page - 1) * RECORDS_PER_PAGE;
+
+                users = userDao.getUsersByPage(offset, RECORDS_PER_PAGE);
                 request.setAttribute("userList", users);
+                request.setAttribute("currentPage", page);
+                request.setAttribute("totalPages", (int) Math.ceil((double) totalRecords / RECORDS_PER_PAGE));
             }
         }
 
@@ -52,36 +69,34 @@ public class UserlistController extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-@Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    String action = request.getParameter("action");
-    
-    if ("delete".equals(action)) {
-        String username = request.getParameter("username");
-        
-        if (username != null && !username.trim().isEmpty()) {
-            boolean isDeleted = userDao.deleteUser(username);
-            
-            if (isDeleted) {
-                // Set success message
-                request.getSession().setAttribute("successMessage", "User deleted successfully.");
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String action = request.getParameter("action");
+
+        if ("delete".equals(action)) {
+            String username = request.getParameter("username");
+
+            if (username != null && !username.trim().isEmpty()) {
+                boolean isDeleted = userDao.deleteUser(username);
+
+                if (isDeleted) {
+                    // Set success message
+                    request.getSession().setAttribute("successMessage", "User deleted successfully.");
+                } else {
+                    // Set error message
+                    request.getSession().setAttribute("errorMessage", "User deletion failed.");
+                }
             } else {
-                // Set error message
-                request.getSession().setAttribute("errorMessage", "User deletion failed.");
+                // Set error message for invalid username
+                request.getSession().setAttribute("errorMessage", "Invalid username.");
             }
+
+            // Redirect to the user list page
+            response.sendRedirect("userlist");
         } else {
-            // Set error message for invalid username
-            request.getSession().setAttribute("errorMessage", "Invalid username.");
+            // Handle other POST requests (e.g., search)
+            doGet(request, response);
         }
-        
-        // Redirect to the user list page
-        response.sendRedirect("userlist");
-    } else {
-        // Handle other POST requests (e.g., search)
-        doGet(request, response);
     }
-}
-
-
 }
