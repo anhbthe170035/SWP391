@@ -6,30 +6,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import entity.User;
+import java.sql.Connection;
 
 public class UserDAO extends context.DBContext {
 
+    // Get all users
     public List<User> getAllUser() {
         List<User> list = new ArrayList<>();
         String query = "SELECT TOP (1000) [username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role] FROM [SWP391].[dbo].[Users]";
-        
-        try (PreparedStatement st = connection.prepareStatement(query)) {
-            try (ResultSet rs = st.executeQuery()) {
-                while (rs.next()) {
-                    User p = new User();
-                    p.setUsername(rs.getString("username"));
-                    p.setPassword(rs.getString("password"));
-                    p.setName(rs.getString("name"));
-                    p.setGender(rs.getString("gender"));
-                    p.setDob(rs.getDate("dob"));
-                    p.setImg(rs.getString("img"));
-                    p.setEmail(rs.getString("email"));
-                    p.setPhone(rs.getString("phone"));
-                    p.setStatus(rs.getInt("status"));
-                    p.setRole(rs.getInt("role"));
-                    
-                    list.add(p);
-                }
+
+        try (PreparedStatement st = connection.prepareStatement(query);
+             ResultSet rs = st.executeQuery()) {
+            while (rs.next()) {
+                User user = mapResultSetToUser(rs);
+                list.add(user);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -37,31 +27,20 @@ public class UserDAO extends context.DBContext {
         return list;
     }
 
+    // Search users by name
     public List<User> searchUserByName(String name) {
         List<User> list = new ArrayList<>();
-        String query = "SELECT [username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role] " +
-                       "FROM [SWP391].[dbo].[Users] " +
-                       "WHERE [name] LIKE ?";
-        
+        String query = "SELECT [username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role] "
+                + "FROM [SWP391].[dbo].[Users] "
+                + "WHERE [name] LIKE ?";
+
         try (PreparedStatement st = connection.prepareStatement(query)) {
-            // Set parameter with wildcards for partial matching
             st.setString(1, "%" + name + "%");
-            
+
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
-                    User p = new User();
-                    p.setUsername(rs.getString("username"));
-                    p.setPassword(rs.getString("password"));
-                    p.setName(rs.getString("name"));
-                    p.setGender(rs.getString("gender"));
-                    p.setDob(rs.getDate("dob"));
-                    p.setImg(rs.getString("img"));
-                    p.setEmail(rs.getString("email"));
-                    p.setPhone(rs.getString("phone"));
-                    p.setStatus(rs.getInt("status"));
-                    p.setRole(rs.getInt("role"));
-                    
-                    list.add(p);
+                    User user = mapResultSetToUser(rs);
+                    list.add(user);
                 }
             }
         } catch (SQLException e) {
@@ -70,14 +49,13 @@ public class UserDAO extends context.DBContext {
         return list;
     }
 
+    // Delete a user
     public boolean deleteUser(String username) {
         String query = "DELETE FROM [SWP391].[dbo].[Users] WHERE [username] = ?";
-        
+
         try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setString(1, username);
             int rowsAffected = st.executeUpdate();
-            
-            // Return true if a user was deleted, false otherwise
             return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -85,30 +63,20 @@ public class UserDAO extends context.DBContext {
         }
     }
 
+    // Get users by page
     public List<User> getUsersByPage(int offset, int limit) {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT [username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role] " +
-                     "FROM [SWP391].[dbo].[Users] ORDER BY [username] OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        String sql = "SELECT [username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role] "
+                + "FROM [SWP391].[dbo].[Users] ORDER BY [username] OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, offset);
             ps.setInt(2, limit);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                User user = new User();
-                user.setUsername(rs.getString("username"));
-                user.setPassword(rs.getString("password"));
-                user.setName(rs.getString("name"));
-                user.setGender(rs.getString("gender"));
-                user.setDob(rs.getDate("dob"));
-                user.setImg(rs.getString("img"));
-                user.setEmail(rs.getString("email"));
-                user.setPhone(rs.getString("phone"));
-                user.setStatus(rs.getInt("status"));
-                user.setRole(rs.getInt("role"));
-                
-                users.add(user);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    User user = mapResultSetToUser(rs);
+                    users.add(user);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -116,10 +84,11 @@ public class UserDAO extends context.DBContext {
         return users;
     }
 
+    // Get the total count of users
     public int getUserCount() {
         String sql = "SELECT COUNT(*) FROM [SWP391].[dbo].[Users]";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ResultSet rs = ps.executeQuery();
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 return rs.getInt(1);
             }
@@ -129,19 +98,78 @@ public class UserDAO extends context.DBContext {
         return 0;
     }
 
-    public static void main(String[] args) {
-        UserDAO udao = new UserDAO();
-        
-        // Test getAllUser
-        List<User> users = udao.getAllUser();
-        for (User user : users) {
-            System.out.println(user);
+    // Edit a user
+    public boolean editUser(User user) {
+        if (user == null || user.getUsername() == null) {
+            throw new IllegalArgumentException("User or username cannot be null");
         }
-        
-        // Test searchUserByName
-        List<User> searchResults = udao.searchUserByName("John");
-        for (User user : searchResults) {
-            System.out.println(user);
+
+        String query = "UPDATE [SWP391].[dbo].[Users] SET "
+                + "[password] = ?, "
+                + "[name] = ?, "
+                + "[gender] = ?, "
+                + "[dob] = ?, "
+                + "[img] = ?, "
+                + "[email] = ?, "
+                + "[phone] = ?, "
+                + "[status] = ?, "
+                + "[role] = ? "
+                + "WHERE [username] = ?";
+
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setString(1, user.getPassword());
+            st.setString(2, user.getName());
+            st.setString(3, user.getGender());
+            st.setDate(4, user.getDob() != null ? new java.sql.Date(user.getDob().getTime()) : null);
+            st.setString(5, user.getImg());
+            st.setString(6, user.getEmail());
+            st.setString(7, user.getPhone());
+            st.setInt(8, user.getStatus());
+            st.setInt(9, user.getRole());
+            st.setString(10, user.getUsername());
+
+            int rowsAffected = st.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
+    }
+
+    // Get a user by username
+    public User getUserByUsername(String username) {
+        User user = null;
+        String query = "SELECT [username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role] "
+                + "FROM [SWP391].[dbo].[Users] "
+                + "WHERE [username] = ?";
+
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setString(1, username);
+
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    user = mapResultSetToUser(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    // Helper method to map ResultSet to User object
+    private User mapResultSetToUser(ResultSet rs) throws SQLException {
+        User user = new User();
+        user.setUsername(rs.getString("username"));
+        user.setPassword(rs.getString("password"));
+        user.setName(rs.getString("name"));
+        user.setGender(rs.getString("gender"));
+        user.setDob(rs.getDate("dob"));
+        user.setImg(rs.getString("img"));
+        user.setEmail(rs.getString("email"));
+        user.setPhone(rs.getString("phone"));
+        user.setStatus(rs.getInt("status"));
+        user.setRole(rs.getInt("role"));
+        return user;
     }
 }

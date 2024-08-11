@@ -127,55 +127,57 @@
 
         <!-- Users table -->
         <table>
-            <tr>
-                <th>Username</th>
-                <th>Password</th>
-                <th>Name</th>
-                <th>Gender</th>
-                <th>Date of Birth</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Status</th>
-                <th>Role</th>
-                <th>Actions</th>
-            </tr>
-            <c:forEach var="user" items="${userList}">
+            <thead>
                 <tr>
-                    <td>${user.username}</td>
-                    <td>${user.password}</td>
-                    <td>${user.name}</td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${user.gender == '00'}">Female</c:when>
-                            <c:otherwise>Male</c:otherwise>
-                        </c:choose>
-                    </td>
-                    <td>${user.dob}</td>
-                    <td>${user.email}</td>
-                    <td>${user.phone}</td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${user.status == 1}">Active</c:when>
-                            <c:otherwise>Inactive</c:otherwise>
-                        </c:choose>
-                    </td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${user.role == 0}">Admin</c:when>
-                            <c:when test="${user.role == 1}">Employee</c:when>
-                            <c:otherwise>Customer</c:otherwise>
-                        </c:choose>
-                    </td>
-                    <td>
-                        <a href="editUser?id=${user.username}">Edit</a> | 
-                        <form action="userlist" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this user?');">
-                            <input type="hidden" name="action" value="delete"/>
-                            <input type="hidden" name="username" value="${user.username}"/>
-                            <button type="submit">Delete</button>
-                        </form>
-                    </td>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Date of Birth</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th>Role</th>
+                    <th>Actions</th>
                 </tr>
-            </c:forEach>
+            </thead>
+            <tbody>
+                <c:forEach var="user" items="${userList}">
+                    <tr>
+                        <td>${user.username}</td>
+                        <td>${user.name}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${user.gender == '00'}">Female</c:when>
+                                <c:otherwise>Male</c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>${user.dob}</td>
+                        <td>${user.email}</td>
+                        <td>${user.phone}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${user.status == 1}">Active</c:when>
+                                <c:otherwise>Inactive</c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${user.role == 0}">Admin</c:when>
+                                <c:when test="${user.role == 1}">Employee</c:when>
+                                <c:otherwise>Customer</c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>
+                            <a href="editUser?id=${user.username}">Edit</a> | 
+                            <form action="userlist" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                <input type="hidden" name="action" value="delete"/>
+                                <input type="hidden" name="username" value="${user.username}"/>
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
         </table>
 
         <!-- Pagination controls -->
