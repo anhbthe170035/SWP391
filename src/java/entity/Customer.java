@@ -10,7 +10,7 @@ import java.sql.Date;
  *
  * @author Admin
  */
-public class User {
+public class Customer {
     public String username;
     public String password;
     public String name;
@@ -20,12 +20,11 @@ public class User {
     public String email;
     public String phone;
     public int status;
-    public int role;
 
-    public User() {
+    public Customer() {
     }
 
-    public User(String username, String password, String name, String gender, Date dob, String img, String email, String phone, int status, int role) {
+    public Customer(String username, String password, String name, String gender, Date dob, String img, String email, String phone, int status) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -35,7 +34,6 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.status = status;
-        this.role = role;
     }
 
     public String getUsername() {
@@ -109,13 +107,4 @@ public class User {
     public void setStatus(int status) {
         this.status = status;
     }
-
-    public int getRole() {
-        return role;
-    }
-
-    public void setRole(int role) {
-        this.role = role;
-    }
-    
 }

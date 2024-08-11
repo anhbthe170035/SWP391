@@ -4,15 +4,15 @@
  */
 package dao;
 
-import entity.User;
+import entity.Customer;
 
 /**
  *
  * @author Admin
  */
-public class UserDAO {
+public class CustomerDAO {
 
-    public User checkLogin(String email, String password) {
+    public Customer getCustomerByName(String name) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
