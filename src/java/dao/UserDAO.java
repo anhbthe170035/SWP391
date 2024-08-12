@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import entity.User;
+import controller.Encryption;
 import java.sql.Connection;
 
 public class UserDAO extends context.DBContext {
@@ -179,7 +180,7 @@ public class UserDAO extends context.DBContext {
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, username);
-            ps.setString(2, password);
+            ps.setString(2, Encryption.MD5Encryption(password));
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 User user = new User(

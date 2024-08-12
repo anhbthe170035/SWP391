@@ -13,11 +13,13 @@ import javax.xml.bind.DatatypeConverter;
  * @author Admin
  */
 public class Encryption {
-    private static String MD5Encryption(String password) {
+    public static String MD5Encryption(String password) {
         try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(password.getBytes());
-            return DatatypeConverter.printHexBinary(md.digest()).toLowerCase();
+            if (password != null) {
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                md.update(password.getBytes());
+                return DatatypeConverter.printHexBinary(md.digest()).toLowerCase();
+            }
         } catch (NoSuchAlgorithmException ex) {
             ex.printStackTrace();
         }
