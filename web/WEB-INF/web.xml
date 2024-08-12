@@ -40,6 +40,10 @@
         <servlet-name>Homepage</servlet-name>
         <servlet-class>controller.Homepage</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ResetPasswordEmailValidation</servlet-name>
+        <servlet-class>controller.ResetPasswordEmailValidation</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Homepage</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -85,5 +89,9 @@
         <url-pattern>/userlist</url-pattern>
         <url-pattern>/searchUser</url-pattern>
         <url-pattern>/editUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ResetPasswordEmailValidation</servlet-name>
+        <url-pattern>/sendemail</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -224,4 +224,23 @@ public class UserDAO extends context.DBContext {
         return role;
     }
 
+    // Get username based on email
+     public String getUsernamebyEmail(String email) {
+        String username = null;
+        String query = "SELECT username FROM Users WHERE email = ?";
+
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setString(1, email);
+
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    username = rs.getString("username");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return username;
+    }
+    
 }
