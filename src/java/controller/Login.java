@@ -40,7 +40,6 @@ public class Login extends HttpServlet {
         String password = request.getParameter("password");
         // Check login of user
         User u = ud.checkLogin(username, password);
-//        User u = null;
         
         if (u == null){
             // If the user is not found (invalid credentials), set an error message
