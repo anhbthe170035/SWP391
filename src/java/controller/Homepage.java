@@ -20,7 +20,6 @@ import java.util.List;
  *
  * @author Admin
  */
-@WebServlet(name = "Homepage", urlPatterns = {"/home"})
 public class Homepage extends HttpServlet {
 
     /**

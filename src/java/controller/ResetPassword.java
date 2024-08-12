@@ -18,7 +18,6 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author Admin
  */
-@WebServlet(name = "ResetPassword", urlPatterns = {"/reset-password"})
 public class ResetPassword extends HttpServlet {
 
     /**

@@ -202,4 +202,26 @@ public class UserDAO extends context.DBContext {
         }
         return null;
     }
+
+    // Get role based on Username
+    public int getRoleByUsername(String username) {
+        int role = -1; // Default value if user is not found or an error occurs
+        String sql = "SELECT role FROM Users WHERE username = ?";
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(sql);             
+            // Set the username parameter in the query
+            pstmt.setString(1, username);
+            
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    role = rs.getInt("role");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle exceptions as appropriate
+        }
+        
+        return role;
+    }
+
 }
