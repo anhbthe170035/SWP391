@@ -9,8 +9,8 @@ package entity;
  * @author Admin
  */
 public class Category {
-    public int cid;
-    public String cname;
+    private int cid;
+    private String cname;
 
     public Category() {
     }

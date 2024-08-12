@@ -9,11 +9,11 @@ package entity;
  * @author Admin
  */
 public class Product {
-    public String idpro;
-    public String name;
-    public String brand;
-    public String description;
-    public String img;
+    private String idpro;
+    private String name;
+    private String brand;
+    private String description;
+    private String img;
 
     public Product() {
     }

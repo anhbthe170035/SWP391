@@ -11,16 +11,16 @@ import java.sql.Date;
  * @author Admin
  */
 public class User {
-    public String username;
-    public String password;
-    public String name;
-    public String gender;
-    public Date dob;
-    public String img;
-    public String email;
-    public String phone;
-    public int status;
-    public int role;
+    private String username;
+    private String password;
+    private String name;
+    private String gender;
+    private Date dob;
+    private String img;
+    private String email;
+    private String phone;
+    private int status;
+    private int role;
 
     public User() {
     }
