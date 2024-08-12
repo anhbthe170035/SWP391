@@ -11,6 +11,7 @@ import java.sql.Date;
  * @author Admin
  */
 public class User {
+
     public String username;
     public String password;
     public String name;
@@ -21,9 +22,6 @@ public class User {
     public String phone;
     public int status;
     public int role;
-
-    public User() {
-    }
 
     public User(String username, String password, String name, String gender, Date dob, String img, String email, String phone, int status, int role) {
         this.username = username;
@@ -36,6 +34,10 @@ public class User {
         this.phone = phone;
         this.status = status;
         this.role = role;
+    }
+
+    public User() {
+        // Khởi tạo các thuộc tính nếu cần thiết
     }
 
     public String getUsername() {
@@ -117,5 +119,10 @@ public class User {
     public void setRole(int role) {
         this.role = role;
     }
-    
+
+    @Override
+    public String toString() {
+        return "User{" + "username=" + username + ", password=" + password + ", name=" + name + ", gender=" + gender + ", dob=" + dob + ", img=" + img + ", email=" + email + ", phone=" + phone + ", status=" + status + ", role=" + role + '}';
+    }
+
 }
