@@ -33,18 +33,22 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        // Create an instance of UserDAO
         UserDAO ud = new UserDAO();
+        // Set the parameters of username and password
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        // Call the checkLogin method of UserDAO to validate the user credentials
         User u = ud.checkLogin(username, password);
         
         if (u == null){
+            // If the user is not found (invalid credentials), set an error message
             request.setAttribute("error", "Wrong username or password");
             request.getRequestDispatcher("login.jsp").forward(request, response);
-//            request.getRequestDispatcher("homeControl").forward(request, response);
 
         }
         else{
+            // If the user credentials are valid, create a new session
             HttpSession session = request.getSession();
             session.setAttribute("user", u);
             request.getRequestDispatcher("home").forward(request, response);

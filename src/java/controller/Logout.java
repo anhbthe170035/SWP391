@@ -30,8 +30,11 @@ public class Logout extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+         // Obtain the current HTTP session.
         HttpSession session = request.getSession();
+        // Remove the attribute "user" from the session, effectively logging the user out
         session.removeAttribute("user");
+        // Redirect the client to the "home" page
         response.sendRedirect("home");
     } 
 
