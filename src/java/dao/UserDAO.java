@@ -172,4 +172,33 @@ public class UserDAO extends context.DBContext {
         user.setRole(rs.getInt("role"));
         return user;
     }
+    
+    // Check user login
+    public User checkLogin(String username, String password) {
+        String sql = "select * from [Users] where [username] = ? and [password] = ?;";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                User user = new User(
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getDate(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getInt(9),
+                        rs.getInt(10)
+                );
+                return user;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
+    }
 }
