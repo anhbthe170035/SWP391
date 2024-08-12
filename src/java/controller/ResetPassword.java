@@ -41,7 +41,7 @@ public class ResetPassword extends HttpServlet {
         String newpass = request.getParameter("newpass");
         String repass = request.getParameter("renewpass");
         if (newpass.equalsIgnoreCase(repass)){
-            ud.changePass(username,newpass);
+            //ud.changePass(username,newpass);
             response.sendRedirect("login.jsp");
         }else{
             request.setAttribute("errorresetpass", "Re-pass not equal try again");

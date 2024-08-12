@@ -36,7 +36,8 @@ public class Login extends HttpServlet {
         UserDAO ud = new UserDAO();
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        User u = ud.checkLogin(username, password);
+        //User u = ud.checkLogin(username, password);
+        User u = null;
         
         if (u == null){
             request.setAttribute("error", "Wrong username or password");
