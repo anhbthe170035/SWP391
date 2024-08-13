@@ -56,7 +56,6 @@
             <c:if test="${sessionScope.user == null}">
                 <form class="form-inline my-2 my-lg-0">
                     <a href="login.jsp" class="btn btn-outline-success my-2 my-sm-0 btn-nav">Login</a>
-                    <a href="signup.jsp" class="btn btn-outline-success my-2 my-sm-0 btn-nav">Sign Up</a>
                 </form>
             </c:if>
             <c:if test="${sessionScope.user != null}">
