@@ -49,6 +49,10 @@
         <url-pattern>/home</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>ProductList</servlet-name>
+        <servlet-class>controller.ProductList</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>controller.Login</servlet-class>
     </servlet>
@@ -93,5 +97,9 @@
     <servlet-mapping>
         <servlet-name>ResetPasswordEmailValidation</servlet-name>
         <url-pattern>/sendemail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductList</servlet-name>
+        <url-pattern>/ProductList</url-pattern>
     </servlet-mapping>
 </web-app>
