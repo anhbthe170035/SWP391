@@ -32,21 +32,19 @@
                 
                 <li class="nav-item active">
                     <c:if test="${sessionScope.user == null}">
-                    <a class="nav-link" href="login.jsp">Orders <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="login.jsp">Orders <span class="sr-only">(current)</span></a>
                     </c:if>
                     <c:if test="${sessionScope.user != null}">
-                    <a class="nav-link" href="loadOrder?userName=${sessionScope.user.username}">Orders <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="loadOrder?userName=${sessionScope.user.username}">Orders <span class="sr-only">(current)</span></a>
                     </c:if>
                 </li>
                 
-                
                 <li class="nav-item active">
                     <c:if test="${sessionScope.user == null}">
-                    <a class="nav-link" href="login.jsp">Cart <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="login.jsp">Cart <span class="sr-only">(current)</span></a>
                     </c:if>
                     <c:if test="${sessionScope.user != null}">
-                    <a class="nav-link" href="cart?userName=${sessionScope.user.username}">Cart <span class="sr-only">(current)</span></a>
-                        
+                        <a class="nav-link" href="cart?userName=${sessionScope.user.username}">Cart <span class="sr-only">(current)</span></a>
                     </c:if>
                 </li>
 
@@ -54,7 +52,6 @@
             <form class="form-inline my-2 my-lg-0 search" action="search" method="post">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="text">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-
             </form>
             <c:if test="${sessionScope.user == null}">
                 <form class="form-inline my-2 my-lg-0">
@@ -62,7 +59,7 @@
                     <a href="signup.jsp" class="btn btn-outline-success my-2 my-sm-0 btn-nav">Sign Up</a>
                 </form>
             </c:if>
-            <c:if test="${sessionScope.user != null}">            
+            <c:if test="${sessionScope.user != null}">
                 <form class="form-inline my-2 my-lg-0">
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -70,16 +67,16 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="profile.jsp">Profile</a>
-                            <a class="dropdown-item" href="changepassword.jsp">Change Password</a>
+                            <!-- Change Password link updated to use resetpwd servlet -->
+                            <a class="dropdown-item" href="resetpwd?u=${sessionScope.user.username}">Change Password</a>
                             <a class="dropdown-item" href="logout">Logout</a>
                         </div>
                     </div>
                 </form>
             </c:if>
-            <c:if test="${sessionScope.user != null && sessionScope.user.role == 1}">  
+            <c:if test="${sessionScope.user != null && sessionScope.user.role == 1}">
                 <form class="form-inline my-2 my-lg-0">
                     <a href="admin.jsp" class="btn btn-outline-success my-2 my-sm-0 btn-nav">Admin</a>
-
                 </form>
             </c:if>
         </div>

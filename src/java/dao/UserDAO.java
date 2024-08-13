@@ -243,4 +243,18 @@ public class UserDAO extends context.DBContext {
         return username;
     }
     
+    // Method to change password
+    public boolean changePass(String username, String newPassword) {
+        String query = "UPDATE [SWP391].[dbo].[Users] SET [password] = ? WHERE [username] = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setString(1, Encryption.MD5Encryption(newPassword));
+            st.setString(2, username);
+            int rowsAffected = st.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
