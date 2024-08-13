@@ -29,9 +29,7 @@
                 <h6 style="padding: 10px 0">${error}</h6>
                 <button class="btn btn-success btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Sign in</button>
                 <a href="forgetPass.jsp" id="forgot_pswd">Forgot password?</a>
-                <hr>
-                <!-- <p>Don't have an account!</p>  -->
-                <a class="btn btn-primary btn-block" id="btn-signup" href="signup.jsp" style="color: white"><i class="fas fa-user-plus" ></i> Sign up New Account</a>
+                <hr>    
             </form>
 
             <form action="/reset/password/" class="form-reset">
