@@ -202,4 +202,59 @@ public class UserDAO extends context.DBContext {
         }
         return null;
     }
+
+    // Get role based on Username
+    public int getRoleByUsername(String username) {
+        int role = -1; // Default value if user is not found or an error occurs
+        String sql = "SELECT role FROM Users WHERE username = ?";
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(sql);             
+            // Set the username parameter in the query
+            pstmt.setString(1, username);
+            
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    role = rs.getInt("role");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle exceptions as appropriate
+        }
+        
+        return role;
+    }
+
+    // Get username based on email
+     public String getUsernamebyEmail(String email) {
+        String username = null;
+        String query = "SELECT username FROM Users WHERE email = ?";
+
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setString(1, email);
+
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    username = rs.getString("username");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return username;
+    }
+    
+    // Method to change password
+    public boolean changePass(String username, String newPassword) {
+        String query = "UPDATE [SWP391].[dbo].[Users] SET [password] = ? WHERE [username] = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setString(1, Encryption.MD5Encryption(newPassword));
+            st.setString(2, username);
+            int rowsAffected = st.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

@@ -18,36 +18,7 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author Admin
  */
-@WebServlet(name = "ResetPassword", urlPatterns = {"/reset-password"})
 public class ResetPassword extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        User u = (User) session.getAttribute("accountByEmail");
-        String username = u.getUsername();
-        UserDAO ud = new UserDAO();
-        
-        String newpass = request.getParameter("newpass");
-        String repass = request.getParameter("renewpass");
-        if (newpass.equalsIgnoreCase(repass)){
-            //ud.changePass(username,newpass);
-            response.sendRedirect("login.jsp");
-        }else{
-            request.setAttribute("errorresetpass", "Re-pass not equal try again");
-            request.getRequestDispatcher("resetpass.jsp").forward(request, response);
-        }
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -61,7 +32,14 @@ public class ResetPassword extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String username = request.getParameter("u");
+
+        if (username != null && !username.isEmpty()) {
+            request.setAttribute("username", username);
+            request.getRequestDispatcher("/resetpass.jsp").forward(request, response);
+        } else {
+            response.sendRedirect(request.getContextPath() + "/login");
+        }
     }
 
     /**
@@ -75,7 +53,19 @@ public class ResetPassword extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String username = request.getParameter("username");
+        String newpass = request.getParameter("newpass");
+        String repass = request.getParameter("renewpass");
+        UserDAO ud = new UserDAO();
+
+        if (newpass.equalsIgnoreCase(repass)) {
+            ud.changePass(username, newpass);
+            response.sendRedirect(request.getContextPath() + "/login");
+        } else {
+            request.setAttribute("errorresetpass", "Re-pass not equal, try again");
+            request.setAttribute("username", username); // Pass username back to JSP
+            request.getRequestDispatcher("/resetpass.jsp").forward(request, response);
+        }
     }
 
     /**

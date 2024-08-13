@@ -12,7 +12,6 @@ import java.sql.Date;
 import java.util.List;
 import entity.User;
 
-@WebServlet(name = "UserlistController", urlPatterns = {"/userlist", "/searchUser", "/editUser"})
 public class UserlistController extends HttpServlet {
 
     private UserDAO userDao;

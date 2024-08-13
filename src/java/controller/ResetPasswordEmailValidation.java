@@ -4,23 +4,19 @@
  */
 package controller;
 
-import dao.ProductDAO;
-import dao.CategoryDAO;
-import entity.Category;
-import entity.Product;
+import dao.UserDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  *
- * @author Admin
+ * @author HMTheBoy154
  */
-public class Homepage extends HttpServlet {
+public class ResetPasswordEmailValidation extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,16 +30,18 @@ public class Homepage extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        ProductDAO pd = new ProductDAO();
-        CategoryDAO cd = new CategoryDAO();
-        
-        List<Product> listProduct = pd.getAllProduct();
-        List<Category> listCategory = cd.getAllCategory();
-        
-        request.setAttribute("listProduct", listProduct);
-        request.setAttribute("listCategory", listCategory);
-        
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet ResetPasswordEmailValidation</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet ResetPasswordEmailValidation at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -72,8 +70,26 @@ public class Homepage extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    }
+        String email = request.getParameter("email");
+        String message = "";
+        UserDAO userDAO = new UserDAO();
+
+        // Check if the email exists
+        String username = userDAO.getUsernamebyEmail(email);
+
+        if (username != null) {
+            String resetPasswordURL = request.getContextPath() + "/resetpwd?u=" + username;
+            message = "To reset this account password, open this page: <a href='" + resetPasswordURL + "'>Reset Password</a>";
+        } else {
+            message = "Sorry, we can't find your account.";
+        }
+
+        // Set the message as a request attribute
+        request.setAttribute("message", message);
+
+        // Forward to the result JSP page
+        request.getRequestDispatcher("/result.jsp").forward(request, response);
+}
 
     /**
      * Returns a short description of the servlet.
