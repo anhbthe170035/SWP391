@@ -60,7 +60,7 @@ public class ResetPassword extends HttpServlet {
 
         if (newpass.equalsIgnoreCase(repass)) {
             ud.changePass(username, newpass);
-            response.sendRedirect(request.getContextPath() + "/login");
+            response.sendRedirect(request.getContextPath() + "/resetpass_success.jsp");
         } else {
             request.setAttribute("errorresetpass", "Re-pass not equal, try again");
             request.setAttribute("username", username); // Pass username back to JSP
