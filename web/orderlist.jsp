@@ -27,6 +27,28 @@
             border-radius: 8px;
         }
 
+        .menu {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .menu a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #4CAF50;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .menu a:hover {
+            text-decoration: underline;
+        }
+
+        .menu a.active {
+            font-weight: bold;
+            color: #2E7D32; /* Màu s?c sáng h?n ?? n?i b?t */
+        }
+
         table {
             width: 100%;
             margin: 20px 0;
@@ -108,6 +130,11 @@
         .submit-form button:hover {
             background-color: #45a049;
         }
+
+        .select-all {
+            margin: 20px 0;
+            text-align: right;
+        }
     </style>
     <script>
         function calculateTotal() {
@@ -119,11 +146,54 @@
             });
             document.getElementById('totalPrice').innerText = 'Total Price: $' + total.toFixed(2);
         }
+
+        function setOrderIds() {
+            var selectedIds = [];
+            var checkboxes = document.querySelectorAll('input[name="orderId"]:checked');
+            checkboxes.forEach(function(checkbox) {
+                selectedIds.push(checkbox.closest('tr').children[1].textContent.trim());
+            });
+            document.getElementById('orderIds').value = selectedIds.join(',');
+        }
+
+        function setMyOrdersLink() {
+            var currentUrl = window.location.href.split('?')[0]; // Remove query parameters if present
+            document.getElementById('myOrdersLink').href = currentUrl;
+        }
+
+        function setActiveLink() {
+            var currentUrl = window.location.href.split('?')[0]; // Remove query parameters if present
+            var links = document.querySelectorAll('.menu a');
+            links.forEach(function(link) {
+                if (link.href === currentUrl) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        function toggleSelectAll(source) {
+            var checkboxes = document.querySelectorAll('input[name="orderId"]');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = source.checked;
+            });
+            calculateTotal();
+        }
+
+        window.onload = function() {
+            setMyOrdersLink();
+            setActiveLink();
+        };
     </script>
 </head>
 <body>
     <div class="container">
         <h2>Order List</h2>
+
+        <!-- Menu links -->
+        <div class="menu">
+            <a id="myOrdersLink" href="#">My Orders</a>
+            <a href="historyLink">History</a> <!-- C?p nh?t liên k?t ??n trang Order History -->
+        </div>
 
         <table>
             <thead>
@@ -158,6 +228,13 @@
             </tbody>
         </table>
 
+        <!-- Select all checkbox -->
+        <div class="select-all">
+            <label>
+                <input type="checkbox" onclick="toggleSelectAll(this)"> Select All
+            </label>
+        </div>
+
         <div id="totalPrice" class="total-price">Total Price: $0.00</div>
 
         <div class="submit-form">
@@ -177,16 +254,5 @@
             </c:if>
         </div>
     </div>
-
-    <script>
-        function setOrderIds() {
-            var selectedIds = [];
-            var checkboxes = document.querySelectorAll('input[name="orderId"]:checked');
-            checkboxes.forEach(function(checkbox) {
-                selectedIds.push(checkbox.closest('tr').children[1].textContent.trim());
-            });
-            document.getElementById('orderIds').value = selectedIds.join(',');
-        }
-    </script>
 </body>
 </html>
