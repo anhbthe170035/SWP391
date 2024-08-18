@@ -56,6 +56,7 @@ public class OrderController extends HttpServlet {
         // Chuyển tiếp yêu cầu và phản hồi tới trang hiển thị danh sách đơn hàng (JSP)
         RequestDispatcher dispatcher = request.getRequestDispatcher("orderlist.jsp");
         dispatcher.forward(request, response);
+        
     }
 
     // Xử lý yêu cầu POST từ người dùng (nếu cần)

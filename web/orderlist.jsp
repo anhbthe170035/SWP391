@@ -187,7 +187,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>Order List</h2>
+        <h2>My Order</h2>
 
         <!-- Menu links -->
         <div class="menu">
@@ -214,7 +214,7 @@
                 <c:forEach var="order" items="${orderList}">
                     <tr>
                         <td><input type="checkbox" name="orderId" data-price="${order.totalprice}" onchange="calculateTotal()"></td>
-                        <td>${order.id}</td>
+                        <td><a href="orderDetails.jsp?id=${order.id}">${order.id}</a></td>
                         <td>${order.orderdate}</td>
                         <td>${order.totalprice}</td>
                         <td>${order.username}</td>
