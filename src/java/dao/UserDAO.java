@@ -257,4 +257,8 @@ public class UserDAO extends context.DBContext {
             return false;
         }
     }
+    public static void main(String[] args) {
+        UserDAO dao = new UserDAO();
+        System.out.println(dao.getAllUser());
+    }
 }
