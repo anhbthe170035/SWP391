@@ -63,7 +63,7 @@
             <c:forEach items="${listProduct}" var="product">  
                 <div class="col-md-4">
                     <div class="product-item">
-                        <img src="${product.img}" alt="" width="600px" height="350px">
+                        <img src="${product.img}" alt="" width="500px" height="400px">
                           <a class="text name" href="product?pid=${product.idpro}">${product.name}</a>
                           <div class="text price">${product.description} </div>
                         <div class="">
