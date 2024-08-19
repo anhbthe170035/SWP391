@@ -4,6 +4,8 @@
  */
 package controller;
 
+import dao.FeedbackDAO;
+import entity.Feedback;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-public class FeedbackDetailController extends HttpServlet {
+public class FeedbackDetailsController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,10 +36,10 @@ public class FeedbackDetailController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet FeedbackDetailController</title>");            
+            out.println("<title>Servlet FeedbackDetailsController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet FeedbackDetailController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet FeedbackDetailsController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -55,7 +57,16 @@ public class FeedbackDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String product = request.getParameter("product");
+        FeedbackDAO fd = new FeedbackDAO();
+        Feedback feedback = fd.getFeedbackByProduct(product);
+
+        if (product == null) {
+            response.sendRedirect("feedback-list"); // return to list if the product is not existed
+        } else {
+            request.setAttribute("product", product);
+            request.getRequestDispatcher("feedbackdetail.jsp").forward(request, response);
+        }
     }
 
     /**

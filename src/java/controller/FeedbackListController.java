@@ -4,12 +4,15 @@
  */
 package controller;
 
+import dao.FeedbackDAO;
+import entity.Feedback;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.*;
 
 /**
  *
@@ -56,6 +59,11 @@ public class FeedbackListController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        PrintWriter out = response.getWriter();
+        FeedbackDAO fd = new FeedbackDAO();
+        List<Feedback> flist = fd.getAllFeedbacks();
+        request.setAttribute("flist", flist);
+        request.getRequestDispatcher("feedbacklist.jsp").forward(request, response);
     }
 
     /**

@@ -4,12 +4,15 @@
  */
 package controller;
 
+import dao.FeedbackDAO;
+import entity.Feedback;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
 
 /**
  *
@@ -67,7 +70,13 @@ public class FeedbackController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        FeedbackDAO fd = new FeedbackDAO();
+        String feedback = request.getParameter("feedback");
+        Feedback fb = new Feedback();
+        fd.insertFeedback(fb);
+        response.sendRedirect("feedback-success.jsp");
     }
 
     /**
