@@ -1,9 +1,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import = "entity.Product" %>
 <%@page import = "java.util.*" %>
+<%@page import = "entity.ProductDetail" %>
 <!DOCTYPE html>
 <%
-  List<Product> lst = (List<Product>) request.getAttribute("lst");
+  List<ProductDetail> lst = (List<ProductDetail>) request.getAttribute("lst");
 %>    
 <html>
   <head>
@@ -26,18 +27,23 @@
         }
         
     </style>
+    <form action="Search" method="Get">
+       <p><input type="text" name="name" value=""/>
+       <input type="submit" value="Search"> 
+  </form>  
       <h2 style="text-align: center"> List of Product </h2>
       <div class="container">
     
      <%
-        for(Product x: lst) {
+        for(ProductDetail x: lst) {
       %>
       <div>
           <img src="img/472_dell_inspiron_5401_2__1_.png" style="height: 400px;width: 400px">
-          <h4><%= x.getName() %> </h4>
-          <h4><%= x.getIdpro() %></h4>
+          <h4><a href="ProductDetail?name=<%= x.getPid() %>"><%= x.getName() %> </a></h4>
+          <h4><%= x.getPid() %></h4>
           <h4><%= x.getBrand() %></h4>
-          <h4><%= x.getDescription() %></h4>
+          <h4 style="color:red; text-decoration: line-through"><%= x.getPrice() %>$</h4>
+          <h4><%= x.getPrice() - x.getSale() %>$</h4>
       </div>
       <% } %>  
       </div>
