@@ -1,28 +1,23 @@
 package dao;
 
-import entity.User;
-import controller.Encryption;
-import context.DBContext;
-
-import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import entity.User;
+import controller.Encryption;
+import java.sql.Connection;
 
-public class UserDAO {
+public class UserDAO extends context.DBContext {
 
-    // Lấy tất cả người dùng
+    // Get all users
     public List<User> getAllUser() {
         List<User> list = new ArrayList<>();
         String query = "SELECT TOP (1000) [username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role] FROM [SWP391].[dbo].[Users]";
 
-        try (Connection connection = DBContext.getConnection();
-             PreparedStatement st = connection.prepareStatement(query);
+        try (PreparedStatement st = connection.prepareStatement(query);
              ResultSet rs = st.executeQuery()) {
-
             while (rs.next()) {
                 User user = mapResultSetToUser(rs);
                 list.add(user);
@@ -33,16 +28,14 @@ public class UserDAO {
         return list;
     }
 
-    // Tìm kiếm người dùng theo tên
+    // Search users by name
     public List<User> searchUserByName(String name) {
         List<User> list = new ArrayList<>();
         String query = "SELECT [username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role] "
                 + "FROM [SWP391].[dbo].[Users] "
                 + "WHERE [name] LIKE ?";
 
-        try (Connection connection = DBContext.getConnection();
-             PreparedStatement st = connection.prepareStatement(query)) {
-
+        try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setString(1, "%" + name + "%");
 
             try (ResultSet rs = st.executeQuery()) {
@@ -57,13 +50,11 @@ public class UserDAO {
         return list;
     }
 
-    // Xóa người dùng
+    // Delete a user
     public boolean deleteUser(String username) {
         String query = "DELETE FROM [SWP391].[dbo].[Users] WHERE [username] = ?";
 
-        try (Connection connection = DBContext.getConnection();
-             PreparedStatement st = connection.prepareStatement(query)) {
-
+        try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setString(1, username);
             int rowsAffected = st.executeUpdate();
             return rowsAffected > 0;
@@ -73,18 +64,15 @@ public class UserDAO {
         }
     }
 
-    // Lấy người dùng theo trang
+    // Get users by page
     public List<User> getUsersByPage(int offset, int limit) {
         List<User> users = new ArrayList<>();
         String sql = "SELECT [username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role] "
                 + "FROM [SWP391].[dbo].[Users] ORDER BY [username] OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
-        try (Connection connection = DBContext.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
-
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, offset);
             ps.setInt(2, limit);
-
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     User user = mapResultSetToUser(rs);
@@ -97,13 +85,11 @@ public class UserDAO {
         return users;
     }
 
-    // Lấy tổng số người dùng
+    // Get the total count of users
     public int getUserCount() {
         String sql = "SELECT COUNT(*) FROM [SWP391].[dbo].[Users]";
-        try (Connection connection = DBContext.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql);
+        try (PreparedStatement ps = connection.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-
             if (rs.next()) {
                 return rs.getInt(1);
             }
@@ -113,10 +99,10 @@ public class UserDAO {
         return 0;
     }
 
-    // Chỉnh sửa người dùng
+    // Edit a user
     public boolean editUser(User user) {
         if (user == null || user.getUsername() == null) {
-            throw new IllegalArgumentException("User hoặc username không thể null");
+            throw new IllegalArgumentException("User or username cannot be null");
         }
 
         String query = "UPDATE [SWP391].[dbo].[Users] SET "
@@ -131,9 +117,7 @@ public class UserDAO {
                 + "[role] = ? "
                 + "WHERE [username] = ?";
 
-        try (Connection connection = DBContext.getConnection();
-             PreparedStatement st = connection.prepareStatement(query)) {
-
+        try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setString(1, user.getPassword());
             st.setString(2, user.getName());
             st.setString(3, user.getGender());
@@ -153,16 +137,14 @@ public class UserDAO {
         }
     }
 
-    // Lấy người dùng theo username
+    // Get a user by username
     public User getUserByUsername(String username) {
         User user = null;
         String query = "SELECT [username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role] "
                 + "FROM [SWP391].[dbo].[Users] "
                 + "WHERE [username] = ?";
 
-        try (Connection connection = DBContext.getConnection();
-             PreparedStatement st = connection.prepareStatement(query)) {
-
+        try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setString(1, username);
 
             try (ResultSet rs = st.executeQuery()) {
@@ -176,7 +158,7 @@ public class UserDAO {
         return user;
     }
 
-    // Phương thức hỗ trợ để ánh xạ ResultSet thành đối tượng User
+    // Helper method to map ResultSet to User object
     private User mapResultSetToUser(ResultSet rs) throws SQLException {
         User user = new User();
         user.setUsername(rs.getString("username"));
@@ -191,55 +173,63 @@ public class UserDAO {
         user.setRole(rs.getInt("role"));
         return user;
     }
-
-    // Kiểm tra đăng nhập người dùng
+    
+    // Check user login
     public User checkLogin(String username, String password) {
-        String sql = "SELECT * FROM [Users] WHERE [username] = ? AND [password] = ?";
-        try (Connection connection = DBContext.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
-
+        String sql = "select * from [Users] where [username] = ? and [password] = ?;";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, username);
             ps.setString(2, Encryption.MD5Encryption(password));
-
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return mapResultSetToUser(rs);
-                }
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                User user = new User(
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getDate(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getInt(9),
+                        rs.getInt(10)
+                );
+                return user;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
         return null;
     }
 
-    // Lấy vai trò dựa trên Username
+    // Get role based on Username
     public int getRoleByUsername(String username) {
-        int role = -1; // Giá trị mặc định nếu không tìm thấy người dùng hoặc xảy ra lỗi
+        int role = -1; // Default value if user is not found or an error occurs
         String sql = "SELECT role FROM Users WHERE username = ?";
-        try (Connection connection = DBContext.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(sql);             
+            // Set the username parameter in the query
             pstmt.setString(1, username);
-
+            
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     role = rs.getInt("role");
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Handle exceptions as appropriate
         }
+        
         return role;
     }
 
-    // Lấy username dựa trên email
-    public String getUsernamebyEmail(String email) {
+    // Get username based on email
+     public String getUsernamebyEmail(String email) {
         String username = null;
         String query = "SELECT username FROM Users WHERE email = ?";
 
-        try (Connection connection = DBContext.getConnection();
-             PreparedStatement st = connection.prepareStatement(query)) {
-
+        try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setString(1, email);
 
             try (ResultSet rs = st.executeQuery()) {
@@ -252,13 +242,12 @@ public class UserDAO {
         }
         return username;
     }
-
-    // Phương thức thay đổi mật khẩu
+    
+    // Method to change password
     public boolean changePass(String username, String newPassword) {
         String query = "UPDATE [SWP391].[dbo].[Users] SET [password] = ? WHERE [username] = ?";
-        try (Connection connection = DBContext.getConnection();
-             PreparedStatement st = connection.prepareStatement(query)) {
-
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
             st.setString(1, Encryption.MD5Encryption(newPassword));
             st.setString(2, username);
             int rowsAffected = st.executeUpdate();
@@ -269,7 +258,7 @@ public class UserDAO {
         }
     }
 
-    // Thêm người dùng mới
+    // Add new user
     public boolean addUser(User user) {
         if (user == null || user.getUsername() == null) {
             throw new IllegalArgumentException("User hoặc username không thể null");
@@ -279,11 +268,10 @@ public class UserDAO {
                 + "([username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role]) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection connection = DBContext.getConnection();
-             PreparedStatement st = connection.prepareStatement(query)) {
+        try (PreparedStatement st = connection.prepareStatement(query)) {
 
             st.setString(1, user.getUsername());
-            st.setString(2, Encryption.MD5Encryption(user.getPassword())); // Mã hóa mật khẩu trước khi lưu
+            st.setString(2, Encryption.MD5Encryption(user.getPassword()));
             st.setString(3, user.getName());
             st.setString(4, user.getGender());
             st.setDate(5, user.getDob() != null ? new java.sql.Date(user.getDob().getTime()) : null);
