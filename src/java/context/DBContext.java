@@ -1,33 +1,40 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package context;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
 /**
- * Lớp DBContext để quản lý kết nối cơ sở dữ liệu.
+ *
+ * @author Admin
  */
 public class DBContext {
-    private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=SWP391";
-    private static final String USERNAME = "sa";
-    private static final String PASSWORD = "123";
-
-    // Tải driver JDBC
-    static {
+    protected Connection connection;
+    
+    public DBContext() {
         try {
+            // Edit URL , username, password to authenticate with your MS SQL Server
+            String url = "jdbc:sqlserver://localhost:1433;databaseName=SWP391";
+            String username = "sa";
+            String password = "sa";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace(); // Xử lý khi không tìm thấy driver
+            connection = DriverManager.getConnection(url, username, password);
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+    
+    public static void main(String[] args) {
+        try {
+            System.out.println(new DBContext().connection);
+        } catch (Exception e) {
         }
     }
 
-    /**
-     * Lấy kết nối tới cơ sở dữ liệu.
-     * 
-     * @return Đối tượng Connection
-     * @throws SQLException nếu xảy ra lỗi khi truy cập cơ sở dữ liệu
-     */
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+    public Connection getConnection() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

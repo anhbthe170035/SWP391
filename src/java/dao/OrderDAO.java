@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDAO {
+public class OrderDAO extends context.DBContext {
 
     private static final String SELECT_ORDERS_PAGINATED_SQL
             = "SELECT * FROM Orders ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
@@ -23,7 +23,7 @@ public class OrderDAO {
         List<Order> list = new ArrayList<>();
         int offset = (pageNumber - 1) * pageSize;
 
-        try (Connection connection = DBContext.getConnection(); PreparedStatement ps = connection.prepareStatement(SELECT_ORDERS_PAGINATED_SQL)) {
+        try (PreparedStatement ps = connection.prepareStatement(SELECT_ORDERS_PAGINATED_SQL)) {
             ps.setInt(1, offset);
             ps.setInt(2, pageSize);
 
@@ -43,7 +43,7 @@ public class OrderDAO {
     public int getTotalOrders() {
         int totalOrders = 0;
 
-        try (Connection connection = DBContext.getConnection(); PreparedStatement ps = connection.prepareStatement(COUNT_TOTAL_ORDERS_SQL); ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = connection.prepareStatement(COUNT_TOTAL_ORDERS_SQL); ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 totalOrders = rs.getInt(1);
             }
@@ -57,7 +57,7 @@ public class OrderDAO {
     public List<String> getPaymentOptions() {
         List<String> paymentOptions = new ArrayList<>();
 
-        try (Connection connection = DBContext.getConnection(); PreparedStatement ps = connection.prepareStatement(SELECT_PAYMENT_OPTIONS_SQL); ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = connection.prepareStatement(SELECT_PAYMENT_OPTIONS_SQL); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 paymentOptions.add(rs.getString("payment_option")); // Thay đổi theo cấu trúc của bảng Cart
             }
@@ -73,7 +73,7 @@ public class OrderDAO {
         Order order = null;
         String query = "SELECT * FROM Orders WHERE id = ?";
 
-        try (Connection connection = DBContext.getConnection(); PreparedStatement statement = connection.prepareStatement(query)) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
