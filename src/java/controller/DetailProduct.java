@@ -8,16 +8,18 @@ import entity.Product;
 import java.util.*;
 import entity.ProductDetail;
 
-public class ProductList extends HttpServlet {
+public class DetailProduct extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         ProductDAO u = new ProductDAO();
-        List<ProductDetail> lst = u.getAllProductDetail();
+        String sn;
+        sn = request.getParameter("name");
+        List<ProductDetail> lst = u.GetProductDetail(sn);
         request.setAttribute("lst", lst);
-        request.getRequestDispatcher("productlist.jsp").forward(request, response);
+        request.getRequestDispatcher("productdetail.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
