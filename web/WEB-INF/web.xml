@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-<!--    <filter>
+    <filter>
         <filter-name>AdminFilter</filter-name>
         <filter-class>filter.AdminFilter</filter-class>
     </filter>
@@ -30,12 +30,20 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>AdminFilter</filter-name>
-        <servlet-name>/searchresult.jsp</servlet-name>
-    </filter-mapping>-->
-<!--    <filter-mapping>
+        <url-pattern>/searchresult.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
         <filter-name>AdminFilter</filter-name>
-        <servlet-name>/userlist.jsp</servlet-name>
-    </filter-mapping>-->
+        <url-pattern>/userlist.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <servlet-name>AddUser</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <url-pattern>/addUserForm.jsp</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>Homepage</servlet-name>
         <servlet-class>controller.Homepage</servlet-class>
@@ -102,4 +110,37 @@
         <servlet-name>ProductList</servlet-name>
         <url-pattern>/ProductList</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AddUser</servlet-name>
+        <servlet-class>controller.AddUserController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddUser</servlet-name>
+        <url-pattern>/addUser</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>HistoryOrder</servlet-name>
+        <servlet-class>controller.HistoryOrder</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HistoryOrder</servlet-name>
+        <url-pattern>/history</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Orders</servlet-name>
+        <servlet-class>controller.OrderController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Orders</servlet-name>
+        <url-pattern>/orders</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>OrderDetails</servlet-name>
+        <servlet-class>controller.OrderDetailsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderDetails</servlet-name>
+        <url-pattern>/orderdetails</url-pattern>
+    </servlet-mapping>
+
 </web-app>
