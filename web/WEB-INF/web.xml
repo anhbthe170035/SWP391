@@ -44,6 +44,10 @@
         <servlet-name>ResetPasswordEmailValidation</servlet-name>
         <servlet-class>controller.ResetPasswordEmailValidation</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Search</servlet-name>
+        <servlet-class>controller.Search</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Homepage</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -101,5 +105,9 @@
     <servlet-mapping>
         <servlet-name>ProductList</servlet-name>
         <url-pattern>/ProductList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Search</servlet-name>
+        <url-pattern>/Search</url-pattern>
     </servlet-mapping>
 </web-app>
