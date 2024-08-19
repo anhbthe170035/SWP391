@@ -257,4 +257,35 @@ public class UserDAO extends context.DBContext {
             return false;
         }
     }
+
+    // Add new user
+    public boolean addUser(User user) {
+        if (user == null || user.getUsername() == null) {
+            throw new IllegalArgumentException("User hoặc username không thể null");
+        }
+
+        String query = "INSERT INTO [SWP391].[dbo].[Users] "
+                + "([username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role]) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+
+            st.setString(1, user.getUsername());
+            st.setString(2, Encryption.MD5Encryption(user.getPassword()));
+            st.setString(3, user.getName());
+            st.setString(4, user.getGender());
+            st.setDate(5, user.getDob() != null ? new java.sql.Date(user.getDob().getTime()) : null);
+            st.setString(6, user.getImg());
+            st.setString(7, user.getEmail());
+            st.setString(8, user.getPhone());
+            st.setInt(9, user.getStatus());
+            st.setInt(10, user.getRole());
+
+            int rowsAffected = st.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

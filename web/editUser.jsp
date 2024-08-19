@@ -61,7 +61,24 @@
             color: green;
             text-align: center;
         }
+        .img-preview {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
     </style>
+    <script>
+        function updateImagePreview() {
+            const imgInput = document.getElementById('img');
+            const imgPreview = document.getElementById('imgPreview');
+            imgPreview.src = imgInput.value;
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -95,7 +112,8 @@
             <input type="date" id="dob" name="dob" value="${user.dob}" required/>
 
             <label for="img">Image URL</label>
-            <input type="text" id="img" name="img" value="${user.img}"/>
+            <input type="text" id="img" name="img" value="${user.img}" oninput="updateImagePreview()"/>
+            <img id="imgPreview" class="img-preview" src="${user.img}" alt="Image Preview"/>
 
             <label for="email">Email</label>
             <input type="email" id="email" name="email" value="${user.email}" required/>
