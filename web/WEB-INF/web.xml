@@ -37,6 +37,18 @@
         <servlet-name>/userlist.jsp</servlet-name>
     </filter-mapping>-->
     <servlet>
+        <servlet-name>ProductList</servlet-name>
+        <servlet-class>controller.ProductList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductDetail</servlet-name>
+        <servlet-class>controller.ProductDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DetailProduct</servlet-name>
+        <servlet-class>controller.DetailProduct</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>Homepage</servlet-name>
         <servlet-class>controller.Homepage</servlet-class>
     </servlet>
@@ -67,6 +79,10 @@
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductList</servlet-name>
+        <url-pattern>/ProductList</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>ResetPassword</servlet-name>
@@ -105,5 +121,9 @@
     <servlet-mapping>
         <servlet-name>ResetPasswordEmailValidation</servlet-name>
         <url-pattern>/sendemail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DetailProduct</servlet-name>
+        <url-pattern>/DetailProduct</url-pattern>
     </servlet-mapping>
 </web-app>
