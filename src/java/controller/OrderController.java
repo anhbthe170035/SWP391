@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.List;
 import entity.Order;
 
-@WebServlet("/orders") // Đường dẫn để truy cập vào controller này
 public class OrderController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
