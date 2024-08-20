@@ -80,10 +80,6 @@
         <servlet-name>Logout</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ProductList</servlet-name>
-        <url-pattern>/ProductList</url-pattern>
-    </servlet-mapping>
     <servlet>
         <servlet-name>ResetPassword</servlet-name>
         <servlet-class>controller.ResetPassword</servlet-class>
@@ -123,7 +119,16 @@
         <url-pattern>/sendemail</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>ProductList</servlet-name>
+        <url-pattern>/ProductList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Search</servlet-name>
+        <url-pattern>/Search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>DetailProduct</servlet-name>
         <url-pattern>/DetailProduct</url-pattern>
     </servlet-mapping>
+
 </web-app>

@@ -42,9 +42,10 @@ public class ProductDAO extends DBContext {
     public List<ProductDetail> getAllProductDetail(){
     List<ProductDetail> list = new ArrayList<>();
     String sql ="""
-                select ProductDetails.*, Products.*
-                from ProductDetails
-                inner join Products on ProductDetails.pid = Products.idpro""";
+                select ProductDetails.*, Products.*, Brand.brandname
+                                from ProductDetails
+                                inner join Products on ProductDetails.pid = Products.pid
+                                inner join Brand on Products.brandid = Brand.brandid""";
     try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -65,9 +66,9 @@ public class ProductDAO extends DBContext {
                 xmonitor = rs.getString("monitor");
                 xstatus = rs.getString("status");
                 xname = rs.getString("name");
-                xbrand = rs.getString("brand");
+                xbrand = rs.getString("brandname");
                 xdescription = rs.getString("description");
-                ximg = rs.getString("img");
+                ximg = rs.getString("enable");
                 xprice = rs.getInt("price");
                 xsale = rs.getInt("sale");
                 x = new ProductDetail(xsku, xpid, xcolor, xcpu, xcpu_specs, xram, xram_max, xgpu, xgpu2, xstorage, xmonitor, xstatus, xname, xbrand, xdescription, ximg, xprice, xsale);
@@ -81,9 +82,10 @@ public class ProductDAO extends DBContext {
     public List<ProductDetail> searchProduct(String xxname){
     List<ProductDetail> list = new ArrayList<>();
     String sql ="""
-                select ProductDetails.*, Products.* 
-                from ProductDetails 
-                inner join Products on ProductDetails.pid = Products.idpro WHERE Products.name like ?""";
+                select ProductDetails.*, Products.*, Brand.brandname
+                                                from ProductDetails
+                                                inner join Products on ProductDetails.pid = Products.pid
+                                                inner join Brand on Products.brandid = Brand.brandid WHERE Products.name like ?""";
     try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, "%" +xxname + "%");
@@ -105,9 +107,9 @@ public class ProductDAO extends DBContext {
                 xmonitor = rs.getString("monitor");
                 xstatus = rs.getString("status");
                 xname = rs.getString("name");
-                xbrand = rs.getString("brand");
+                xbrand = rs.getString("brandname");
                 xdescription = rs.getString("description");
-                ximg = rs.getString("img");
+                ximg = rs.getString("enable");
                 xprice = rs.getInt("price");
                 xsale = rs.getInt("sale");
                 x = new ProductDetail(xsku, xpid, xcolor, xcpu, xcpu_specs, xram, xram_max, xgpu, xgpu2, xstorage, xmonitor, xstatus, xname, xbrand, xdescription, ximg, xprice, xsale);
@@ -121,9 +123,10 @@ public class ProductDAO extends DBContext {
     public List<ProductDetail> GetProductDetail(String xxsku){
     List<ProductDetail> list = new ArrayList<>();
     String sql ="""
-                select ProductDetails.*, Products.* 
-                from ProductDetails 
-                inner join Products on ProductDetails.pid = Products.idpro WHERE ProductDetails.sku = ?""";
+                select ProductDetails.*, Products.*, Brand.brandname
+                                                from ProductDetails
+                                                inner join Products on ProductDetails.pid = Products.pid
+                                                inner join Brand on Products.brandid = Brand.brandid WHERE ProductDetails.sku = ?""";
     try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, xxsku);
@@ -145,9 +148,9 @@ public class ProductDAO extends DBContext {
                 xmonitor = rs.getString("monitor");
                 xstatus = rs.getString("status");
                 xname = rs.getString("name");
-                xbrand = rs.getString("brand");
+                xbrand = rs.getString("brandname");
                 xdescription = rs.getString("description");
-                ximg = rs.getString("img");
+                ximg = rs.getString("enable");
                 xprice = rs.getInt("price");
                 xsale = rs.getInt("sale");
                 x = new ProductDetail(xsku, xpid, xcolor, xcpu, xcpu_specs, xram, xram_max, xgpu, xgpu2, xstorage, xmonitor, xstatus, xname, xbrand, xdescription, ximg, xprice, xsale);
@@ -158,4 +161,5 @@ public class ProductDAO extends DBContext {
         }
     return list;
     }
+ 
 }
