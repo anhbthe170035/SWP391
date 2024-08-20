@@ -8,6 +8,9 @@
 <%@page import="entity.Feedback" %>
 <%@page import="java.util.*" %>
 <!DOCTYPE html>
+<%
+  List<Feedback> flist = (List<Feedback>) request.getAttribute("flist");
+%>  
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
