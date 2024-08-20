@@ -127,4 +127,8 @@
         <servlet-name>DetailProduct</servlet-name>
         <url-pattern>/DetailProduct</url-pattern>
     </servlet-mapping>
+<<<<<<< Updated upstream
 </web-app>
+=======
+</web-app>
+>>>>>>> Stashed changes

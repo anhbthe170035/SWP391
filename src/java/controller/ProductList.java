@@ -4,7 +4,6 @@ import java.io.*;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import dao.ProductDAO;
-import entity.Product;
 import java.util.*;
 import entity.ProductDetail;
 
