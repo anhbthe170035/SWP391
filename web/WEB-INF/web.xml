@@ -37,8 +37,16 @@
         <servlet-name>/userlist.jsp</servlet-name>
     </filter-mapping>-->
     <servlet>
-        <servlet-name>ProductList</servlet-name>
-        <servlet-class>controller.ProductList</servlet-class>
+        <servlet-name>Homepage</servlet-name>
+        <servlet-class>controller.Homepage</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ResetPasswordEmailValidation</servlet-name>
+        <servlet-class>controller.ResetPasswordEmailValidation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Search</servlet-name>
+        <servlet-class>controller.Search</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ProductDetail</servlet-name>
@@ -49,12 +57,8 @@
         <servlet-class>controller.DetailProduct</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>Homepage</servlet-name>
-        <servlet-class>controller.Homepage</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ResetPasswordEmailValidation</servlet-name>
-        <servlet-class>controller.ResetPasswordEmailValidation</servlet-class>
+        <servlet-name>Search</servlet-name>
+        <servlet-class>controller.Search</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Homepage</servlet-name>
@@ -100,14 +104,6 @@
         <servlet-name>UserlistController</servlet-name>
         <servlet-class>controller.UserlistController</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>OrderController</servlet-name>
-        <servlet-class>controller.OrderController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>OrderController</servlet-name>
-        <url-pattern>/order</url-pattern>
-    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserlistController</servlet-name>
         <url-pattern>/userlist</url-pattern>
