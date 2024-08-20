@@ -37,14 +37,14 @@
                 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="./assets/Slider/apple-du-kien-ra-mat-iphone-man-hinh-gap-ifan-da-gom-du-lua-chua-220108055847.jpg"
-                                 class="d-block w-100" alt="...">
+                            <img src="./assets/Slider/acer-aspire-lite-15-51m-55nb-i5.jpg"
+                                 class="d-block" width="100" height="300" alt="...">
                         </div>
                         <div class="carousel-item">
-                            <img src="./assets/Slider/apple-macbook-air-2015-11-6inch.jpg" class="d-block w-100" alt="...">
+                            <img src="./assets/Slider/apple-macbook-air-2015-11-6inch.jpg" class="d-block" width="100" height="300" alt="...">
                         </div>
                         <div class="carousel-item">
-                            <img src="./assets/Slider/mpl1661130075.jpg" class="d-block w-100" alt="...">
+                            <img src="./assets/Slider/dell-inspiron-15-3520-i5.jpg" class="d-block" width="100" height="300" alt="...">
                         </div>
                     </div>
                     <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -63,7 +63,6 @@
             <c:forEach items="${listProduct}" var="product">  
                 <div class="col-md-4">
                     <div class="product-item">
-                        <img src="${product.img}" alt="" width="600px" height="350px">
                           <a class="text name" href="product?pid=${product.idpro}">${product.name}</a>
                           <div class="text price">${product.description} </div>
                         <div class="">

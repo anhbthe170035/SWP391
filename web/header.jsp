@@ -9,10 +9,9 @@
 <div class="header">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="home">
-            <img src="./assets/Apple_logo_black.svg.png" width="30" height="30" alt="">
+            <img src="./assets/laptopshop.png" width="50" height="50" alt="">
         </a>
 
-        <a class="navbar-brand" href="home">STORE</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -29,22 +28,28 @@
                         <a class="dropdown-item" href="#">Something else here</a>
                     </div>
                 </li>
-                
+
                 <li class="nav-item active">
                     <c:if test="${sessionScope.user == null}">
                         <a class="nav-link" href="login.jsp">Orders <span class="sr-only">(current)</span></a>
                     </c:if>
                     <c:if test="${sessionScope.user != null}">
-                        <a class="nav-link" href="loadOrder?userName=${sessionScope.user.username}">Orders <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="order?userName=${sessionScope.user.username}">Orders <span class="sr-only">(current)</span></a>
                     </c:if>
                 </li>
-                
+
                 <li class="nav-item active">
                     <c:if test="${sessionScope.user == null}">
                         <a class="nav-link" href="login.jsp">Cart <span class="sr-only">(current)</span></a>
                     </c:if>
                     <c:if test="${sessionScope.user != null}">
                         <a class="nav-link" href="cart?userName=${sessionScope.user.username}">Cart <span class="sr-only">(current)</span></a>
+                    </c:if>
+                </li>
+                
+                <li class="nav-item active">
+                    <c:if test="${sessionScope.user != null && sessionScope.user.role == 0}">
+                        <a class="nav-link" href="userlist">User List <span class="sr-only">(current)</span></a>
                     </c:if>
                 </li>
 
@@ -66,16 +71,21 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="profile.jsp">Profile</a>
-                            <!-- Change Password link updated to use resetpwd servlet -->
                             <a class="dropdown-item" href="resetpwd?u=${sessionScope.user.username}">Change Password</a>
                             <a class="dropdown-item" href="logout">Logout</a>
                         </div>
                     </div>
                 </form>
             </c:if>
+            <c:if test="${sessionScope.user != null && sessionScope.user.role == 0}">
+                <form class="form-inline my-2 my-lg-0">
+                    
+                    <a href="admin.jsp" class="btn btn-outline-success my-2 my-sm-0 btn-nav">Admin</a>
+                </form>
+            </c:if>
             <c:if test="${sessionScope.user != null && sessionScope.user.role == 1}">
                 <form class="form-inline my-2 my-lg-0">
-                    <a href="admin.jsp" class="btn btn-outline-success my-2 my-sm-0 btn-nav">Admin</a>
+                    <a href="admin.jsp" class="btn btn-outline-success my-2 my-sm-0 btn-nav">Employee</a>
                 </form>
             </c:if>
         </div>
