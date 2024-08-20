@@ -28,6 +28,15 @@
                         <a class="dropdown-item" href="#">Something else here</a>
                     </div>
                 </li>
+                
+                <li class="nav-item active">
+                    <c:if test="${sessionScope.user == null}">
+                        <a class="nav-link" href="ProductList">Product List <span class="sr-only">(current)</span></a>
+                    </c:if>
+                        <c:if test="${sessionScope.user == null}">
+                        <a class="nav-link" href="ProductList?userName=${sessionScope.user.username}">Product List <span class="sr-only">(current)</span></a>
+                    </c:if>
+                </li>
 
                 <li class="nav-item active">
                     <c:if test="${sessionScope.user == null}">
