@@ -40,6 +40,12 @@ public class Login extends HttpServlet {
         // Check login of user
         User u = ud.checkLogin(username, password);
         
+        // Only proceed if both username and password are provided
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+            return;
+        }
+        
         if (u == null){
             // If the user is not found (invalid credentials), set an error message
             request.setAttribute("error", "Wrong username or password");
