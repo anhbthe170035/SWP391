@@ -88,6 +88,14 @@
         <servlet-name>UserlistController</servlet-name>
         <servlet-class>controller.UserlistController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrderController</servlet-name>
+        <servlet-class>controller.OrderController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderController</servlet-name>
+        <url-pattern>/order</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserlistController</servlet-name>
         <url-pattern>/userlist</url-pattern>

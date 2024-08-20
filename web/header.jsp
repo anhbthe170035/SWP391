@@ -34,7 +34,7 @@
                         <a class="nav-link" href="login.jsp">Orders <span class="sr-only">(current)</span></a>
                     </c:if>
                     <c:if test="${sessionScope.user != null}">
-                        <a class="nav-link" href="orderlist.jsp?userName=${sessionScope.user.username}">Orders <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="order?userName=${sessionScope.user.username}">Orders <span class="sr-only">(current)</span></a>
                     </c:if>
                 </li>
                 
