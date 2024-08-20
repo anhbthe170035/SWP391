@@ -16,7 +16,7 @@ public class DetailProduct extends HttpServlet {
         PrintWriter out = response.getWriter();
         ProductDAO u = new ProductDAO();
         String sn;
-        sn = request.getParameter("name");
+        sn = request.getParameter("sku");
         List<ProductDetail> lst = u.GetProductDetail(sn);
         request.setAttribute("lst", lst);
         request.getRequestDispatcher("productdetail.jsp").forward(request, response);

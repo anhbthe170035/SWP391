@@ -39,7 +39,7 @@
       %>
       <div>
           <img src="img/472_dell_inspiron_5401_2__1_.png" style="height: 400px;width: 400px">
-          <h4><a href="DetailProduct?name=<%= x.getSku() %>"><%= x.getName() %> </a></h4>
+          <h4><a href="DetailProduct?sku=<%= x.getSku() %>"><%= x.getName() %> </a></h4>
           <h4><%= x.getPid() %></h4>
           <h4><%= x.getBrand() %></h4>
           <h4 style="color:red; text-decoration: line-through"><%= x.getPrice() %>$</h4>
