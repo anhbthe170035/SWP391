@@ -33,8 +33,8 @@
                     <c:if test="${sessionScope.user == null}">
                         <a class="nav-link" href="ProductList">Product List <span class="sr-only">(current)</span></a>
                     </c:if>
-                        <c:if test="${sessionScope.user == null}">
-                        <a class="nav-link" href="ProductList?userName=${sessionScope.user.username}">Product List <span class="sr-only">(current)</span></a>
+                    <c:if test="${sessionScope.user != null}">
+                        <a class="nav-link" href="ProductList">Product List <span class="sr-only">(current)</span></a>
                     </c:if>
                 </li>
 
@@ -43,7 +43,7 @@
                         <a class="nav-link" href="login.jsp">Orders <span class="sr-only">(current)</span></a>
                     </c:if>
                     <c:if test="${sessionScope.user != null}">
-                        <a class="nav-link" href="order?userName=${sessionScope.user.username}">Orders <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="orders?userName=${sessionScope.user.username}">Orders <span class="sr-only">(current)</span></a>
                     </c:if>
                 </li>
 

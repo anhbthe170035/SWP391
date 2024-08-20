@@ -96,6 +96,10 @@
         <servlet-name>UserDetail</servlet-name>
         <servlet-class>controller.UserDetailController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrderController</servlet-name>
+        <servlet-class>controller.OrderController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserDetail</servlet-name>
         <url-pattern>/userDetail</url-pattern>
@@ -126,5 +130,8 @@
         <servlet-name>DetailProduct</servlet-name>
         <url-pattern>/DetailProduct</url-pattern>
     </servlet-mapping>
-
+    <servlet-mapping>
+        <servlet-name>OrderController</servlet-name>
+        <url-pattern>/orders</url-pattern>
+    </servlet-mapping>
 </web-app>
