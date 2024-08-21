@@ -52,7 +52,7 @@
                         <a class="nav-link" href="login.jsp">Cart <span class="sr-only">(current)</span></a>
                     </c:if>
                     <c:if test="${sessionScope.user != null}">
-                        <a class="nav-link" href="cart?userName=${sessionScope.user.username}">Cart <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="cart">Cart <span class="sr-only">(current)</span></a>
                     </c:if>
                 </li>
                 
