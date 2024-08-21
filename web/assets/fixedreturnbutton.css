@@ -1,0 +1,9 @@
+.fixed-bottom-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000; /* Ensure it is above other elements */
+}
+.container {
+    padding-bottom: 80px; /* Add space for the fixed button */
+}
