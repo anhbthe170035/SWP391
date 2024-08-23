@@ -8,6 +8,8 @@ import java.util.List;
 import entity.User;
 import controller.Encryption;
 import java.sql.Connection;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class UserDAO extends context.DBContext {
 
@@ -16,8 +18,7 @@ public class UserDAO extends context.DBContext {
         List<User> list = new ArrayList<>();
         String query = "SELECT TOP (1000) [username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role] FROM [SWP391].[dbo].[Users]";
 
-        try (PreparedStatement st = connection.prepareStatement(query);
-             ResultSet rs = st.executeQuery()) {
+        try ( PreparedStatement st = connection.prepareStatement(query);  ResultSet rs = st.executeQuery()) {
             while (rs.next()) {
                 User user = mapResultSetToUser(rs);
                 list.add(user);
@@ -35,10 +36,10 @@ public class UserDAO extends context.DBContext {
                 + "FROM [SWP391].[dbo].[Users] "
                 + "WHERE [name] LIKE ?";
 
-        try (PreparedStatement st = connection.prepareStatement(query)) {
+        try ( PreparedStatement st = connection.prepareStatement(query)) {
             st.setString(1, "%" + name + "%");
 
-            try (ResultSet rs = st.executeQuery()) {
+            try ( ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
                     User user = mapResultSetToUser(rs);
                     list.add(user);
@@ -54,7 +55,7 @@ public class UserDAO extends context.DBContext {
     public boolean deleteUser(String username) {
         String query = "DELETE FROM [SWP391].[dbo].[Users] WHERE [username] = ?";
 
-        try (PreparedStatement st = connection.prepareStatement(query)) {
+        try ( PreparedStatement st = connection.prepareStatement(query)) {
             st.setString(1, username);
             int rowsAffected = st.executeUpdate();
             return rowsAffected > 0;
@@ -70,10 +71,10 @@ public class UserDAO extends context.DBContext {
         String sql = "SELECT [username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role] "
                 + "FROM [SWP391].[dbo].[Users] ORDER BY [username] OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, offset);
             ps.setInt(2, limit);
-            try (ResultSet rs = ps.executeQuery()) {
+            try ( ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     User user = mapResultSetToUser(rs);
                     users.add(user);
@@ -88,8 +89,7 @@ public class UserDAO extends context.DBContext {
     // Get the total count of users
     public int getUserCount() {
         String sql = "SELECT COUNT(*) FROM [SWP391].[dbo].[Users]";
-        try (PreparedStatement ps = connection.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try ( PreparedStatement ps = connection.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 return rs.getInt(1);
             }
@@ -117,7 +117,7 @@ public class UserDAO extends context.DBContext {
                 + "[role] = ? "
                 + "WHERE [username] = ?";
 
-        try (PreparedStatement st = connection.prepareStatement(query)) {
+        try ( PreparedStatement st = connection.prepareStatement(query)) {
             st.setString(1, user.getPassword());
             st.setString(2, user.getName());
             st.setString(3, user.getGender());
@@ -144,10 +144,10 @@ public class UserDAO extends context.DBContext {
                 + "FROM [SWP391].[dbo].[Users] "
                 + "WHERE [username] = ?";
 
-        try (PreparedStatement st = connection.prepareStatement(query)) {
+        try ( PreparedStatement st = connection.prepareStatement(query)) {
             st.setString(1, username);
 
-            try (ResultSet rs = st.executeQuery()) {
+            try ( ResultSet rs = st.executeQuery()) {
                 if (rs.next()) {
                     user = mapResultSetToUser(rs);
                 }
@@ -173,7 +173,7 @@ public class UserDAO extends context.DBContext {
         user.setRole(rs.getInt("role"));
         return user;
     }
-    
+
     // Check user login
     public User checkLogin(String username, String password) {
         String sql = "select * from [Users] where [username] = ? and [password] = ?;";
@@ -208,11 +208,11 @@ public class UserDAO extends context.DBContext {
         int role = -1; // Default value if user is not found or an error occurs
         String sql = "SELECT role FROM Users WHERE username = ?";
         try {
-            PreparedStatement pstmt = connection.prepareStatement(sql);             
+            PreparedStatement pstmt = connection.prepareStatement(sql);
             // Set the username parameter in the query
             pstmt.setString(1, username);
-            
-            try (ResultSet rs = pstmt.executeQuery()) {
+
+            try ( ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     role = rs.getInt("role");
                 }
@@ -220,19 +220,19 @@ public class UserDAO extends context.DBContext {
         } catch (SQLException e) {
             e.printStackTrace(); // Handle exceptions as appropriate
         }
-        
+
         return role;
     }
 
     // Get username based on email
-     public String getUsernamebyEmail(String email) {
+    public String getUsernamebyEmail(String email) {
         String username = null;
         String query = "SELECT username FROM Users WHERE email = ?";
 
-        try (PreparedStatement st = connection.prepareStatement(query)) {
+        try ( PreparedStatement st = connection.prepareStatement(query)) {
             st.setString(1, email);
 
-            try (ResultSet rs = st.executeQuery()) {
+            try ( ResultSet rs = st.executeQuery()) {
                 if (rs.next()) {
                     username = rs.getString("username");
                 }
@@ -242,7 +242,7 @@ public class UserDAO extends context.DBContext {
         }
         return username;
     }
-    
+
     // Method to change password
     public boolean changePass(String username, String newPassword) {
         String query = "UPDATE [SWP391].[dbo].[Users] SET [password] = ? WHERE [username] = ?";
@@ -268,7 +268,7 @@ public class UserDAO extends context.DBContext {
                 + "([username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role]) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement st = connection.prepareStatement(query)) {
+        try ( PreparedStatement st = connection.prepareStatement(query)) {
 
             st.setString(1, user.getUsername());
             st.setString(2, Encryption.MD5Encryption(user.getPassword()));
@@ -287,5 +287,72 @@ public class UserDAO extends context.DBContext {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public boolean signup(String username, String password, String name, int gender, String email, String dob, String phone, String img, int role) throws ParseException {
+        String query = "INSERT INTO [dbo].[Users] "
+                + "([username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role]) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setString(1, username);
+            st.setString(2, Encryption.MD5Encryption(password));
+            st.setString(3, name);
+            st.setInt(4, gender);
+            st.setString(5, email);
+            java.sql.Date sqlDob = null;
+            if (dob != null && !dob.isEmpty()) {
+                try {
+                    java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(dob);
+                    sqlDob = new java.sql.Date(utilDate.getTime());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+            st.setDate(6, sqlDob);
+            st.setString(7, phone);
+            st.setString(8, img);
+            st.setInt(9, role);
+
+            int rowsAffected = st.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean checkAccoutExist(String username) {
+        String query = "select * from [dbo].[Users] where username = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+        }
+
+        return false;
+    }
+
+    public boolean checkEmailExist(String email) {
+        String query = "select * from [dbo].[Users] where email = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            ps.setString(1, email);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+        }
+
+        return false;
     }
 }

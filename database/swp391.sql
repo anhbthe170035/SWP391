@@ -135,27 +135,37 @@ CREATE TABLE dbo.ProductDetails (
 
 -- Insert ProductDetails into the ProductDetails table
 INSERT INTO dbo.ProductDetails (sku, pid, color, cpu, cpu_specs, ram, ram_max, gpu, gpu2, storage, monitor, status, price, sale) VALUES
-('DLPX13-1', 'LAPTOP001', 'Silver', 'Intel Core i7-1165G7', '2.80 GHz, 4 Cores, 8 Threads', '16GB', '32GB', 'Intel Iris Xe', NULL, '512GB SSD', '13.4" FHD', 'New', 1300, 150),
-('MBAIR-M2', 'LAPTOP002', 'Space Gray', 'Apple M2', '3.49 GHz, 8 Cores', '8GB', '24GB', 'Apple GPU', NULL, '256GB SSD', '13.6" Retina', 'New', 1300, 150),
-('SPX360-1', 'LAPTOP003', 'Nightfall Black', 'Intel Core i7-1165G7', '2.80 GHz, 4 Cores, 8 Threads', '16GB', '16GB', 'Intel Iris Xe', NULL, '1TB SSD', '14" 3K', 'New', 1400, 200),
-('TPX1C-1', 'LAPTOP004', 'Black', 'Intel Core i7-1165G7', '2.80 GHz, 4 Cores, 8 Threads', '16GB', '32GB', 'Intel Iris Xe', NULL, '512GB SSD', '14" FHD', 'New', 1500, 250),
-('ROG14-1', 'LAPTOP005', 'Eclipse Gray', 'AMD Ryzen 9 5900HS', '3.30 GHz, 8 Cores, 16 Threads', '32GB', '32GB', 'NVIDIA RTX 3060', NULL, '1TB SSD', '14" QHD', 'New', 1700, 300),
-('SWIFT3-1', 'LAPTOP006', 'Silver', 'Intel Core i5-1135G7', '2.40 GHz, 4 Cores, 8 Threads', '8GB', '8GB', 'Intel Iris Xe', NULL, '256GB SSD', '14" FHD', 'New', 600, 50),
-('SFL4-1', 'LAPTOP007', 'Platinum', 'Intel Core i7-1185G7', '3.00 GHz, 4 Cores, 8 Threads', '16GB', '32GB', 'Intel Iris Xe', NULL, '512GB SSD', '15" PixelSense', 'New', 1600, 200),
-('GE76-1', 'LAPTOP008', 'Black', 'Intel Core i9-11980HK', '2.60 GHz, 8 Cores, 16 Threads', '32GB', '64GB', 'NVIDIA RTX 3080', NULL, '1TB SSD', '17.3" UHD', 'New', 2500, 400),
-('RB15-1', 'LAPTOP009', 'Black', 'Intel Core i7-12800H', '2.40 GHz, 14 Cores, 20 Threads', '16GB', '64GB', 'NVIDIA RTX 3070', NULL, '1TB SSD', '15.6" QHD', 'New', 2200, 350),
-('MBXPro-1', 'LAPTOP010', 'Space Gray', 'Intel Core i7-1165G7', '2.80 GHz, 4 Cores, 8 Threads', '16GB', '16GB', 'Intel Iris Xe', NULL, '1TB SSD', '13.9" 3K', 'New', 1400, 200),
-('HPX360-1', 'LAPTOP011', 'Silver', 'Intel Core i5-1135G7', '2.40 GHz, 4 Cores, 8 Threads', '8GB', '16GB', 'Intel Iris Xe', NULL, '256GB SSD', '14" FHD', 'New', 600, 50),
-('IDP3-1', 'LAPTOP012', 'Abyss Blue', 'AMD Ryzen 5 5500U', '2.10 GHz, 6 Cores, 12 Threads', '8GB', '16GB', 'AMD Radeon Graphics', NULL, '512GB SSD', '15.6" FHD', 'New', 500, 40);
+('DLPX13-1', 'LAPTOP001', 'Silver', 'Intel Core i7-1165G7', '2.80 GHz, 4 Cores, 8 Threads', '16GB', '32GB', 'Intel Iris Xe', NULL, '512GB SSD', '13.4" FHD', 'New', 1300, 8),
+('MBAIR-M2', 'LAPTOP002', 'Space Gray', 'Apple M2', '3.49 GHz, 8 Cores', '8GB', '24GB', 'Apple GPU', NULL, '256GB SSD', '13.6" Retina', 'New', 1300, 23),
+('SPX360-1', 'LAPTOP003', 'Nightfall Black', 'Intel Core i7-1165G7', '2.80 GHz, 4 Cores, 8 Threads', '16GB', '16GB', 'Intel Iris Xe', NULL, '1TB SSD', '14" 3K', 'New', 1400, 13),
+('TPX1C-1', 'LAPTOP004', 'Black', 'Intel Core i7-1165G7', '2.80 GHz, 4 Cores, 8 Threads', '16GB', '32GB', 'Intel Iris Xe', NULL, '512GB SSD', '14" FHD', 'New', 1500, 10),
+('ROG14-1', 'LAPTOP005', 'Eclipse Gray', 'AMD Ryzen 9 5900HS', '3.30 GHz, 8 Cores, 16 Threads', '32GB', '32GB', 'NVIDIA RTX 3060', NULL, '1TB SSD', '14" QHD', 'New', 1700, 8),
+('SWIFT3-1', 'LAPTOP006', 'Silver', 'Intel Core i5-1135G7', '2.40 GHz, 4 Cores, 8 Threads', '8GB', '8GB', 'Intel Iris Xe', NULL, '256GB SSD', '14" FHD', 'New', 600, 10),
+('SFL4-1', 'LAPTOP007', 'Platinum', 'Intel Core i7-1185G7', '3.00 GHz, 4 Cores, 8 Threads', '16GB', '32GB', 'Intel Iris Xe', NULL, '512GB SSD', '15" PixelSense', 'New', 1600, 12),
+('GE76-1', 'LAPTOP008', 'Black', 'Intel Core i9-11980HK', '2.60 GHz, 8 Cores, 16 Threads', '32GB', '64GB', 'NVIDIA RTX 3080', NULL, '1TB SSD', '17.3" UHD', 'New', 2500, 13),
+('RB15-1', 'LAPTOP009', 'Black', 'Intel Core i7-12800H', '2.40 GHz, 14 Cores, 20 Threads', '16GB', '64GB', 'NVIDIA RTX 3070', NULL, '1TB SSD', '15.6" QHD', 'New', 2200, 18),
+('MBXPro-1', 'LAPTOP010', 'Space Gray', 'Intel Core i7-1165G7', '2.80 GHz, 4 Cores, 8 Threads', '16GB', '16GB', 'Intel Iris Xe', NULL, '1TB SSD', '13.9" 3K', 'New', 1400, 6),
+('HPX360-1', 'LAPTOP011', 'Silver', 'Intel Core i5-1135G7', '2.40 GHz, 4 Cores, 8 Threads', '8GB', '16GB', 'Intel Iris Xe', NULL, '256GB SSD', '14" FHD', 'New', 600, 14),
+('IDP3-1', 'LAPTOP012', 'Abyss Blue', 'AMD Ryzen 5 5500U', '2.10 GHz, 6 Cores, 12 Threads', '8GB', '16GB', 'AMD Radeon Graphics', NULL, '512GB SSD', '15.6" FHD', 'New', 500, 8);
 GO
 
 -- Create the updated Carts table
 CREATE TABLE dbo.Carts (
-    cartid INT PRIMARY KEY IDENTITY(1,1),
+    cartid INT PRIMARY KEY,
     username NVARCHAR(50) NOT NULL,
     FOREIGN KEY (username) REFERENCES dbo.Users(username)
 );
 GO
+
+-- Create the updated CartDetails table with new schema
+CREATE TABLE dbo.CartDetails (
+    cdeid INT IDENTITY(1,1) PRIMARY KEY,
+    cartid INT NOT NULL,
+    sku NVARCHAR(25) NOT NULL,
+    amount INT NOT NULL,
+    FOREIGN KEY (cartid) REFERENCES dbo.Carts(cartid),
+    FOREIGN KEY (sku) REFERENCES dbo.ProductDetails(sku)
+);
 
 -- Create the CartDetails table
 CREATE TABLE dbo.CartDetails (
@@ -204,3 +214,18 @@ CREATE TABLE ProductFeedback (
     FOREIGN KEY (sku) REFERENCES dbo.ProductDetails(sku)
 );
 GO
+
+-- Add the new column 'Enable' to the ProductDetails table
+ALTER TABLE dbo.ProductDetails
+ADD enable BIT NOT NULL DEFAULT 1;
+GO
+
+INSERT INTO dbo.Carts (cartid, username)
+VALUES (1, 'customer1');
+
+-- Insert updated data into the new CartDetails table
+INSERT INTO dbo.CartDetails (cartid, sku, amount)
+VALUES
+(1, 'DLPX13-1', 1),  -- Dell XPS 13
+(1, 'MBAIR-M2', 1),   -- MacBook Air M2
+(1, 'ROG14-1', 1);    -- ASUS ROG Zephyrus G14

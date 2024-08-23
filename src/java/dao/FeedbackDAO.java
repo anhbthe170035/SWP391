@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class FeedbackDAO extends context.DBContext{
 
-    public void insertFeedback(Feedback feedback) {
+    public boolean insertFeedback(Feedback feedback) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

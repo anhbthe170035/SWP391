@@ -4,21 +4,19 @@
  */
 package controller;
 
-import dao.FeedbackDAO;
-import entity.Feedback;
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
 
 /**
  *
  * @author Admin
  */
-public class FeedbackController extends HttpServlet {
+public class Register extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,17 +30,39 @@ public class FeedbackController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet FeedbackController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet FeedbackController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        UserDAO ud = new UserDAO();
+        
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String re_password = request.getParameter("re_password");
+        String name = request.getParameter("name");
+        int gender = Integer.parseInt(request.getParameter("gender"));
+        String email = request.getParameter("email");
+        String dob = request.getParameter("date");
+        String phone = request.getParameter("phone");
+        String img = request.getParameter("img");
+        int role = Integer.parseInt(request.getParameter("role"));
+        
+        if (password.equals(re_password)){
+            if (ud.checkAccoutExist(username)){
+                request.setAttribute("error", "Username is exist");
+                request.getRequestDispatcher("register.jsp").forward(request, response);
+            }
+            else if (ud.checkEmailExist(email)){
+                request.setAttribute("error", "Email is exist");
+                request.getRequestDispatcher("register.jsp").forward(request, response);
+            }
+            else {
+                ud.signup(username, password, name, gender, email, dob, phone, img, role);
+                request.setAttribute("error", "Login to Continue");
+
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            }
+        }
+        
+        else{
+            request.setAttribute("error", "Password not equal Repeat Password");
+            request.getRequestDispatcher("register.jsp").forward(request, response);
         }
     }
 
@@ -72,27 +92,7 @@ public class FeedbackController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int feedbackid = Integer.parseInt(request.getParameter("feedbackid"));
-        int orderid = Integer.parseInt("orderid");
-        String sku = request.getParameter("sku");
-        String feedback = request.getParameter("feedback");
-        int star = Integer.parseInt(request.getParameter("star"));
-        Feedback fb = new Feedback();
-        fb.getFeedbackid();
-        fb.getOrderid();
-        fb.getSku();
-        fb.getFeedback();
-        fb.getStar();
-        
-        FeedbackDAO fd = new FeedbackDAO();
-        boolean success = fd.insertFeedback(fb);
-        
-        if (success){
-            response.sendRedirect("home.jsp");
-        } else {
-            request.setAttribute("error", "Failed to send feedback");
-            request.getRequestDispatcher("feedback.jsp").forward(request, response);
-        }
+        processRequest(request, response);
     }
 
     /**

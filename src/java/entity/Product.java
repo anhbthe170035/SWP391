@@ -11,19 +11,19 @@ package entity;
 public class Product {
     private String idpro;
     private String name;
-    private String brand;
     private String description;
-    private String img;
+    private String cid;
+    private String brand;
 
     public Product() {
     }
 
-    public Product(String idpro, String name, String brand, String description, String img) {
+    public Product(String idpro, String name, String description, String cid, String brand) {
         this.idpro = idpro;
         this.name = name;
-        this.brand = brand;
         this.description = description;
-        this.img = img;
+        this.cid = cid;
+        this.brand = brand;
     }
 
     public String getIdpro() {
@@ -42,14 +42,6 @@ public class Product {
         this.name = name;
     }
 
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -58,16 +50,24 @@ public class Product {
         this.description = description;
     }
 
-    public String getImg() {
-        return img;
+    public String getCid() {
+        return cid;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setCid(String cid) {
+        this.cid = cid;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
     @Override
     public String toString() {
-        return "Product{" + "idpro=" + idpro + ", name=" + name + ", brand=" + brand + ", description=" + description + ", img=" + img + '}';
+        return "Product{" + "idpro=" + idpro + ", name=" + name + ", description=" + description + ", cid=" + cid + ", brand=" + brand + '}';
     }
 }
