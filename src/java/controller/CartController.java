@@ -60,33 +60,11 @@ public class CartController extends HttpServlet {
                 selectedCartDetails = cartDetails; // If no items are selected, show all items
             }
 
-            // Initialize variables for calculation
-            int totalPrice = 0;
-            int totalDiscount = 0;
-
-            // Calculate Total Price and Total Discount
-            for (CartDetails item : selectedCartDetails) {
-                int itemPrice = item.getPrice();
-                int itemAmount = item.getAmount();
-                int discountPercentage = item.getDiscount();
-
-                // Total Price calculation
-                int itemTotalPrice = itemPrice * itemAmount;
-                totalPrice += itemTotalPrice;
-
-                // Total Discount calculation (discount amount from total price)
-                int discountAmount = (itemTotalPrice * discountPercentage) / 100;
-                totalDiscount += discountAmount * itemAmount;
-            }
-
-            // Calculate Final Price
-            int finalPrice = totalPrice - totalDiscount;
-
             // Set attributes for JSP
             request.setAttribute("cartItems", selectedCartDetails);
-            request.setAttribute("totalPrice", totalPrice);
-            request.setAttribute("totalDiscount", totalDiscount); // Amount discounted
-            request.setAttribute("finalPrice", finalPrice);
+            request.setAttribute("totalPrice", 0); // Set initial values, will be updated by JavaScript
+            request.setAttribute("totalDiscountedPrice", 0); // Set initial values, will be updated by JavaScript
+            request.setAttribute("finalPrice", 0); // Set initial values, will be updated by JavaScript
 
         } catch (NullPointerException e) {
             e.printStackTrace();
