@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./assets/fixedreturnbutton.css"/>
     <title>Cart</title>
     <script src="./assets/js/updatecart.js"></script>
+    <script src="./assets/js/updateprice.js"></script>
     <style>
 
     </style>
@@ -39,8 +40,8 @@
                             <td>${item.productName}</td>
                             <td>${item.sku}</td>
                             <td><input type="number" class="quantity-input" data-cdeid="${item.cdeid}" value="${item.amount}" min="1"/></td>
-                            <td>${item.discount}%</td>
-                            <td>${item.price}</td>
+                            <td class="discount">${item.discount}%</td>
+                            <td class="price">${item.price}</td>
                             <td><a href="deleteItem?cdeid=${item.cdeid}" class="btn btn-danger">Delete</a></td>
                         </tr>
                     </c:forEach>
@@ -51,9 +52,9 @@
             <div class="row">
                 <div class="col-md-12 text-right">
                     <div class="mb-3">
-                        <h6>Total Price: ${totalPrice}</h6>
-                        <h6>Total Discounted Price: ${totalDiscountedPrice}</h6>
-                        <h3>Final Price: ${finalPrice}</h3>
+                        <h6>Total Price: <span id="totalPrice">${totalPrice}</span></h6>
+                        <h6>Total Discounted Price: <span id="totalDiscountedPrice">${totalDiscountedPrice}</span></h6>
+                        <h3>Final Price: <span id="finalPrice">${finalPrice}</span></h3>
                     </div>
                     <button type="submit" class="btn btn-success">Check Out</button>
                 </div>
