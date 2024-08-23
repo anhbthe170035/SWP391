@@ -16,6 +16,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 
 /**
  *
@@ -42,10 +43,54 @@ public class CartController extends HttpServlet {
             Cart cart = cartDAO.getCartByUsername(username);
             List<CartDetails> cartDetails = cartDAO.getCartDetails(cart.getCartid());
 
-            request.setAttribute("cartItems", cartDetails);
+            // Get selected item IDs from request
+            String[] selectedItemIds = request.getParameterValues("selectedItems");
+            List<CartDetails> selectedCartDetails = new ArrayList<>();
+
+            if (selectedItemIds != null) {
+                for (String itemId : selectedItemIds) {
+                    int cdeid = Integer.parseInt(itemId);
+                    for (CartDetails item : cartDetails) {
+                        if (item.getCdeid() == cdeid) {
+                            selectedCartDetails.add(item);
+                        }
+                    }
+                }
+            } else {
+                selectedCartDetails = cartDetails; // If no items are selected, show all items
+            }
+
+            // Initialize variables for calculation
+            int totalPrice = 0;
+            int totalDiscount = 0;
+
+            // Calculate Total Price and Total Discount
+            for (CartDetails item : selectedCartDetails) {
+                int itemPrice = item.getPrice();
+                int itemAmount = item.getAmount();
+                int discountPercentage = item.getDiscount();
+
+                // Total Price calculation
+                int itemTotalPrice = itemPrice * itemAmount;
+                totalPrice += itemTotalPrice;
+
+                // Total Discount calculation (discount amount from total price)
+                int discountAmount = (itemTotalPrice * discountPercentage) / 100;
+                totalDiscount += discountAmount * itemAmount;
+            }
+
+            // Calculate Final Price
+            int finalPrice = totalPrice - totalDiscount;
+
+            // Set attributes for JSP
+            request.setAttribute("cartItems", selectedCartDetails);
+            request.setAttribute("totalPrice", totalPrice);
+            request.setAttribute("totalDiscount", totalDiscount); // Amount discounted
+            request.setAttribute("finalPrice", finalPrice);
+
         } catch (NullPointerException e) {
             e.printStackTrace();
-        };
+        }
 
         request.getRequestDispatcher("cart.jsp").forward(request, response);
     }
