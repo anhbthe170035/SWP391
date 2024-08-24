@@ -93,6 +93,10 @@
         <servlet-name>ConfirmCheckoutOrder</servlet-name>
         <servlet-class>controller.ConfirmCheckoutController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChangePassword</servlet-name>
+        <servlet-class>controller.ChangePassword</servlet-class>
+    </servlet>
 
     <!-- Servlet Mappings -->
     <servlet-mapping>
@@ -181,6 +185,10 @@
         <servlet-name>ConfirmCheckoutOrder</servlet-name>
         <url-pattern>/confirmcheckout</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePassword</servlet-name>
+        <url-pattern>/changepwd</url-pattern>
+    </servlet-mapping>
 
     <!-- Filters -->
     <filter>
@@ -208,10 +216,12 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>
+        <url-pattern>/changepass.jsp</url-pattern>
         <url-pattern>/orderlist.jsp</url-pattern>
         <url-pattern>/profile.jsp</url-pattern>
         <url-pattern>/orderDetails.jsp</url-pattern>
         <url-pattern>/OrderHistory.jsp</url-pattern>
+        <servlet-name>ChangePassword</servlet-name>
         <servlet-name>HistoryOrder</servlet-name>
         <servlet-name>Orders</servlet-name>
         <servlet-name>OrderDetails</servlet-name>

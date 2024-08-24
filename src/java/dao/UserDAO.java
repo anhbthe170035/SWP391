@@ -36,10 +36,10 @@ public class UserDAO extends context.DBContext {
                 + "FROM [SWP391].[dbo].[Users] "
                 + "WHERE [name] LIKE ?";
 
-        try ( PreparedStatement st = connection.prepareStatement(query)) {
+        try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setString(1, "%" + name + "%");
 
-            try ( ResultSet rs = st.executeQuery()) {
+            try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
                     User user = mapResultSetToUser(rs);
                     list.add(user);
@@ -71,10 +71,10 @@ public class UserDAO extends context.DBContext {
         String sql = "SELECT [username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role] "
                 + "FROM [SWP391].[dbo].[Users] ORDER BY [username] OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
-        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, offset);
             ps.setInt(2, limit);
-            try ( ResultSet rs = ps.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     User user = mapResultSetToUser(rs);
                     users.add(user);
@@ -129,10 +129,10 @@ public class UserDAO extends context.DBContext {
                 + "FROM [SWP391].[dbo].[Users] "
                 + "WHERE [username] = ?";
 
-        try ( PreparedStatement st = connection.prepareStatement(query)) {
+        try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setString(1, username);
 
-            try ( ResultSet rs = st.executeQuery()) {
+            try (ResultSet rs = st.executeQuery()) {
                 if (rs.next()) {
                     user = mapResultSetToUser(rs);
                 }
@@ -214,10 +214,10 @@ public class UserDAO extends context.DBContext {
         String username = null;
         String query = "SELECT username FROM Users WHERE email = ?";
 
-        try ( PreparedStatement st = connection.prepareStatement(query)) {
+        try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setString(1, email);
 
-            try ( ResultSet rs = st.executeQuery()) {
+            try (ResultSet rs = st.executeQuery()) {
                 if (rs.next()) {
                     username = rs.getString("username");
                 }
@@ -253,7 +253,7 @@ public class UserDAO extends context.DBContext {
                 + "([username], [password], [name], [gender], [dob], [email], [phone], [status], [role]) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?)";
 
-        try ( PreparedStatement st = connection.prepareStatement(query)) {
+        try (PreparedStatement st = connection.prepareStatement(query)) {
 
             st.setString(1, user.getUsername());
             st.setString(2, Encryption.MD5Encryption(user.getPassword()));
@@ -274,7 +274,7 @@ public class UserDAO extends context.DBContext {
         }
     }
 
-    public boolean signup(String username, String password, String name, String gender, String dob, String email, String phone, int role)  {
+    public boolean signup(String username, String password, String name, String gender, String dob, String email, String phone, int role) {
         String query = "INSERT INTO [dbo].[Users] "
                 + "([username], [password], [name], [gender], [dob], [email], [phone], [role]) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -361,4 +361,20 @@ public class UserDAO extends context.DBContext {
         }
     }
 
+// UserDAO.java
+    public boolean isPasswordCorrect(String username, String hashedPassword) {
+        String query = "SELECT COUNT(*) FROM [SWP391].[dbo].[Users] WHERE [username] = ? AND [password] = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setString(1, username);
+            st.setString(2, hashedPassword);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

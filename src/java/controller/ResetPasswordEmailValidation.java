@@ -4,9 +4,13 @@
  */
 package controller;
 
+import dao.PasswordResetTokenDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.SecureRandom;
+import java.sql.Timestamp;
+import java.util.Base64;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +21,8 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author HMTheBoy154
  */
 public class ResetPasswordEmailValidation extends HttpServlet {
+
+    private static final int TOKEN_LENGTH = 8;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -73,13 +79,25 @@ public class ResetPasswordEmailValidation extends HttpServlet {
         String email = request.getParameter("email");
         String message = "";
         UserDAO userDAO = new UserDAO();
+        PasswordResetTokenDAO tokenDAO = new PasswordResetTokenDAO();
 
         // Check if the email exists
         String username = userDAO.getUsernamebyEmail(email);
 
         if (username != null) {
-            String resetPasswordURL = request.getContextPath() + "/resetpwd?u=" + username;
-            message = "To reset this account password, open this page: <a href='" + resetPasswordURL + "'>Reset Password</a>";
+            // Generate a token
+            SecureRandom random = new SecureRandom();
+            byte[] tokenBytes = new byte[TOKEN_LENGTH];
+            random.nextBytes(tokenBytes);
+            String token = Encryption.MD5Encryption(username + Base64.getEncoder().encodeToString(tokenBytes));
+
+            // Store the token in the database
+            Timestamp expireTime = new Timestamp(System.currentTimeMillis() + 10 * 60 * 1000); // 10 minutes from now
+            tokenDAO.saveToken(username, token, expireTime);
+
+            // Generate the reset link
+            String resetPasswordURL = request.getContextPath() + "/resetpwd?token=" + token;
+            message = "Password reset instructions will be sent to this email address. <script>console.log('Reset link: " + resetPasswordURL + "');</script>";
         } else {
             message = "Sorry, we can't find your account.";
         }

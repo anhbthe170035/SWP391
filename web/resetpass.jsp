@@ -42,6 +42,7 @@
                             <span class="form-text small text-muted">To confirm, type the new password again.</span>
                         </div>
                         <input type="hidden" name="username" value="${username}">
+                        <input type="hidden" name="token" value="${token}">
                         <div class="form-group">
                             <button type="submit" class="btn btn-success btn-lg float-right">Save</button>
                         </div>
