@@ -2,6 +2,7 @@ package dao;
 
 import context.DBContext;
 import entity.Order;
+import entity.OrderDetails;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -126,5 +127,42 @@ public class OrderDAO extends DBContext {
         String fromAddress = rs.getString("fromaddress");
         String toAddress = rs.getString("toaddress");
         return new Order(id, orderDate, totalPrice, username, status, shipDate, fromAddress, toAddress);
+    }
+
+    public int createOrder(Order order) throws SQLException {
+        String sql = "INSERT INTO dbo.Orders (orderdate, totalprice, username, status, shipdate, fromaddress, toaddress) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setDate(1, order.getOrderdate());
+            ps.setInt(2, order.getTotalprice());
+            ps.setString(3, order.getUsername());
+            ps.setInt(4, order.getStatus());
+            ps.setDate(5, order.getShipdate());
+            ps.setString(6, order.getFromaddress());
+            ps.setString(7, order.getToaddress());
+            
+            int affectedRows = ps.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return generatedKeys.getInt(1); // Return the generated order ID
+                    }
+                }
+            }
+        }
+        return -1; // Failure to create order
+    }
+
+    public void createOrderDetails(OrderDetails orderDetails) throws SQLException {
+        String sql = "INSERT INTO dbo.OrderDetails (orderid, sku, quantity, discount, price) " +
+                     "VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, orderDetails.getOrderId());
+            ps.setString(2, orderDetails.getSku());
+            ps.setInt(3, orderDetails.getQuantity());
+            ps.setFloat(4, orderDetails.getDiscount());
+            ps.setInt(5, orderDetails.getPrice());
+            ps.executeUpdate();
+        }
     }
 }

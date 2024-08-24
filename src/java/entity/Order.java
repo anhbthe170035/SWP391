@@ -13,6 +13,9 @@ public class Order {
     private String fromaddress;
     private String toaddress;
 
+    public Order() {
+    }
+
     public Order(int id, Date orderdate, int totalprice, String username, int status, Date shipdate, String fromaddress, String toaddress) {
         this.id = id;
         this.orderdate = orderdate;
