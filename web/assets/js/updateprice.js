@@ -21,6 +21,9 @@ function updatePrices() {
     document.querySelector('#totalPrice').innerText = totalPrice;
     document.querySelector('#totalDiscountedPrice').innerText = totalDiscountedPrice;
     document.querySelector('#finalPrice').innerText = finalPrice;
+
+    // Update the hidden input field with the final price
+    document.querySelector('#finalPriceInput').value = finalPrice;
 }
 
 document.addEventListener('DOMContentLoaded', function() {

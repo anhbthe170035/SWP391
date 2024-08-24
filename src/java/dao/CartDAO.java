@@ -116,4 +116,33 @@ public class CartDAO extends DBContext {
             return false;
         }
     }
+
+    public CartDetails getCartDetailById(int cdeid) {
+        CartDetails details = null;
+        String sql = "SELECT cd.cdeid, cd.cartid, cd.sku, cd.amount, pd.price, pd.sale, p.name AS productName " +
+                     "FROM dbo.CartDetails cd " +
+                     "JOIN dbo.ProductDetails pd ON cd.sku = pd.sku " +
+                     "JOIN dbo.Products p ON pd.pid = p.pid " +
+                     "WHERE cd.cdeid = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, cdeid);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                details = new CartDetails();
+                details.setCdeid(rs.getInt("cdeid"));
+                details.setCartid(rs.getInt("cartid"));
+                details.setSku(rs.getString("sku"));
+                details.setAmount(rs.getInt("amount"));
+                details.setPrice(rs.getInt("price"));
+                details.setDiscount(rs.getInt("sale"));
+    
+                // Concatenate all product details into a single productName field
+                String productName = rs.getString("productName");
+                details.setProductName(productName);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return details;
+    }    
 }
