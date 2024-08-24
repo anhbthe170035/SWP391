@@ -30,7 +30,6 @@
                 </li>
 
                 <li class="nav-item active">
-
                     <c:if test="${sessionScope.user != null}">
                         <a class="nav-link" href="ProductList?userName=${sessionScope.user.username}">Product List <span class="sr-only">(current)</span></a>
                     </c:if>
@@ -38,7 +37,6 @@
 
                 <li class="nav-item active">
                     <c:if test="${sessionScope.user != null}">
-
                         <c:if test="${sessionScope.user.role == '0'}">
                             <a class="nav-link" href="orderListAdmin">Orders <span class="sr-only">(current)</span></a>
                         </c:if>

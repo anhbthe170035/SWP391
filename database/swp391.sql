@@ -293,3 +293,6 @@ INSERT INTO dbo.Posts (thumbnail, cpid, username, title, content, status) VALUES
 (NULL, 1, 'employee1', 'Company Milestones', 'An overview of recent milestones achieved by the company.', 'Published'),
 (NULL, 2, 'employee2', 'Employee of the Month', 'Celebrating our Employee of the Month and their achievements.', 'Draft'),
 (NULL, 3, 'employee3', 'Tips for Remote Work', 'Effective strategies for working remotely and staying productive.', 'Published');
+
+ALTER TABLE dbo.PasswordResetToken
+ADD used BIT NOT NULL DEFAULT 0;

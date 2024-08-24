@@ -18,21 +18,18 @@ import java.util.ArrayList;
 public class FeedbackDAO extends context.DBContext {
 
     public boolean insertFeedback(Feedback feedback) {
-        String query = "INSERT INTO [dbo].[ProductFeedback] "
-                + "([feedbackid]\n"
-                + "      ,[orderid]\n"
+        String query = "INSERT INTO [dbo].[ProductFeedback]"
+                + "([orderid]\n"
                 + "      ,[sku]\n"
                 + "      ,[feedback]\n"
                 + "      ,[star]) "
-                + "VALUES (?, ?, ?, ?, ?)";
+                + "VALUES (?, ?, ?, ?)";
         try {
             PreparedStatement st = connection.prepareStatement(query);
-            st.setInt(1, feedback.getFeedbackid());
-            st.setInt(2, feedback.getOrderid());
-            st.setString(3, feedback.getSku());
-            st.setString(4, feedback.getFeedback());
-            st.setInt(5, feedback.getStar());
-            
+            st.setInt(1, feedback.getOrderid());
+            st.setString(2, feedback.getSku());
+            st.setString(3, feedback.getFeedback());
+            st.setInt(4, feedback.getStar());
             int rowsAffected = st.executeUpdate();
             return rowsAffected < 0;
         } catch (SQLException e) {
@@ -47,13 +44,15 @@ public class FeedbackDAO extends context.DBContext {
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
+            
             while (rs.next()) {
-                list.add(new Feedback(rs.getInt(1),
+                Feedback x = new Feedback(rs.getInt(1),
                         rs.getInt(2),
                         rs.getString(3),
                         rs.getString(4),
-                        rs.getInt(5)
-                ));
+                        rs.getInt(5));
+                list.add(x);
+                
             }
         } catch (SQLException e) {
             System.out.println(e);

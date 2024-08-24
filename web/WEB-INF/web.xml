@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    
-  <!-- Servlets -->
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                             http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+
+    <!-- Servlets -->
     <servlet>
         <servlet-name>Homepage</servlet-name>
         <servlet-class>controller.Homepage</servlet-class>
@@ -78,11 +81,10 @@
         <servlet-name>UpdateQuantityController</servlet-name>
         <servlet-class>controller.UpdateQuantityController</servlet-class>
     </servlet>
-
     <servlet>
         <servlet-name>Register</servlet-name>
         <servlet-class>controller.Register</servlet-class>
-    <!-- Servlet Mappings -->
+    </servlet>
     <servlet>
         <servlet-name>CartCheckoutController</servlet-name>
         <servlet-class>controller.CartCheckoutController</servlet-class>
@@ -90,8 +92,9 @@
     <servlet>
         <servlet-name>ConfirmCheckoutOrder</servlet-name>
         <servlet-class>controller.ConfirmCheckoutController</servlet-class>
-
     </servlet>
+
+    <!-- Servlet Mappings -->
     <servlet-mapping>
         <servlet-name>Homepage</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -166,10 +169,18 @@
         <servlet-name>UpdateQuantityController</servlet-name>
         <url-pattern>/updateQuantity</url-pattern>
     </servlet-mapping>
-
     <servlet-mapping>
         <servlet-name>Register</servlet-name>
         <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CartCheckoutController</servlet-name>
+        <url-pattern>/cartcheckout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfirmCheckoutOrder</servlet-name>
+        <url-pattern>/confirmcheckout</url-pattern>
+    </servlet-mapping>
 
     <!-- Filters -->
     <filter>
@@ -184,6 +195,7 @@
         <filter-name>LoggedFilter</filter-name>
         <filter-class>filter.LoggedFilter</filter-class>
     </filter>
+
     <!-- Filter Mappings -->
     <filter-mapping>
         <filter-name>AdminFilter</filter-name>
@@ -199,7 +211,6 @@
         <url-pattern>/orderlist.jsp</url-pattern>
         <url-pattern>/profile.jsp</url-pattern>
         <url-pattern>/orderDetails.jsp</url-pattern>
-        <url-pattern>/orderlist.jsp</url-pattern>
         <url-pattern>/OrderHistory.jsp</url-pattern>
         <servlet-name>HistoryOrder</servlet-name>
         <servlet-name>Orders</servlet-name>
@@ -212,13 +223,5 @@
         <filter-name>LoggedFilter</filter-name>
         <url-pattern>/login</url-pattern>
     </filter-mapping>
-    <servlet-mapping>
-        <servlet-name>CartCheckoutController</servlet-name>
-        <url-pattern>/cartcheckout</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ConfirmCheckoutOrder</servlet-name>
-        <url-pattern>/confirmcheckout</url-pattern>
 
-    </servlet-mapping>
 </web-app>

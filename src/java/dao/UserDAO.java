@@ -18,7 +18,6 @@ public class UserDAO extends context.DBContext {
         List<User> list = new ArrayList<>();
         String query = "SELECT TOP (1000) [username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role] FROM [SWP391].[dbo].[Users]";
 
-
         try (PreparedStatement st = connection.prepareStatement(query); ResultSet rs = st.executeQuery()) {
             while (rs.next()) {
                 User user = mapResultSetToUser(rs);
@@ -55,7 +54,6 @@ public class UserDAO extends context.DBContext {
     // Delete a user
     public boolean deleteUser(String username) {
         String query = "DELETE FROM [SWP391].[dbo].[Users] WHERE [username] = ?";
-
         try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setString(1, username);
             int rowsAffected = st.executeUpdate();
@@ -91,7 +89,6 @@ public class UserDAO extends context.DBContext {
     // Get the total count of users
     public int getUserCount() {
         String sql = "SELECT COUNT(*) FROM [SWP391].[dbo].[Users]";
-
         try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 return rs.getInt(1);
@@ -311,7 +308,6 @@ public class UserDAO extends context.DBContext {
         }
     }
 
-
     public boolean checkAccoutExist(String username) {
         String query = "select * from [dbo].[Users] where username = ?";
         try {
@@ -343,7 +339,6 @@ public class UserDAO extends context.DBContext {
 
         return false;
     }
-
     public boolean updateUserProfile(User user) {
         String sql = "UPDATE Users SET password = ?, name = ?, gender = ?, dob = ?, img = ?, email = ?, phone = ? WHERE username = ?";
 

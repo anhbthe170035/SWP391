@@ -17,6 +17,13 @@ public class Feedback {
 
     public Feedback() {}
 
+    public Feedback(int orderid, String sku, String feedback, int star) {
+        this.orderid = orderid;
+        this.sku = sku;
+        this.feedback = feedback;
+        this.star = star;
+    }
+
     public Feedback(int feedbackid, int orderid, String sku, String feedback, int star) {
         this.feedbackid = feedbackid;
         this.orderid = orderid;

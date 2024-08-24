@@ -39,7 +39,7 @@
             %>
             <div>
                 <h4><%= f.getFeedbackid() %> </h4>
-                <h4><%= f.getOrderId() %></h4>
+                <h4><%= f.getOrderid() %></h4>
                 <h4><%= f.getSku() %></h4>
                 <h4><%= f.getFeedback() %></h4>
                 <h4><%= f.getStar() %></h4>

@@ -72,16 +72,13 @@ public class FeedbackController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int feedbackid = Integer.parseInt(request.getParameter("feedbackid"));
-        int orderid = Integer.parseInt("orderid");
+        int orderid = Integer.parseInt(request.getParameter("orderid"));
         String sku = request.getParameter("sku");
         String feedback = request.getParameter("feedback");
-        int star = Integer.parseInt(request.getParameter("star"));
+        int star = Integer.parseInt(request.getParameter("star").split(" ")[0]);
         
-        Feedback fb = new Feedback(feedbackid, orderid, sku, feedback, star);
+        Feedback fb = new Feedback(orderid, sku, feedback, star);
         
-       
-        fb.getFeedbackid();
         fb.getOrderid();
         fb.getSku();
         fb.getFeedback();
