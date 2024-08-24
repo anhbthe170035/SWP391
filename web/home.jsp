@@ -65,13 +65,6 @@
                     <div class="product-item">
                           <a class="text name" href="product?pid=${product.idpro}">${product.name}</a>
                           <div class="text price">${product.description} </div>
-                        <div class="">
-                            <span class="bi bi-star checked"></span>
-                            <span class="bi bi-star checked"></span>
-                            <span class="bi bi-star checked"></span>
-                            <span class="bi bi-star"></span>
-                            <span class="bi bi-star"></span>
-                        </div>
                         <c:if test="${sessionScope.user != null}">
                             <a class="buy" href="product?pid=${product.idpro}">Buy</a>
                         </c:if>

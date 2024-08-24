@@ -57,14 +57,14 @@ public class FeedbackDetailsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String product = request.getParameter("product");
+        String sku = request.getParameter("sku");
         FeedbackDAO fd = new FeedbackDAO();
-        Feedback feedback = fd.getFeedbackByProduct(product);
+        Feedback feedback = fd.getFeedbackBySku(sku);
 
-        if (product == null) {
+        if (sku == null) {
             response.sendRedirect("feedback-list"); // return to list if the product is not existed
         } else {
-            request.setAttribute("product", product);
+            request.setAttribute("sku", sku);
             request.getRequestDispatcher("feedbackdetail.jsp").forward(request, response);
         }
     }

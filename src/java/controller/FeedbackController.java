@@ -72,11 +72,30 @@ public class FeedbackController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        FeedbackDAO fd = new FeedbackDAO();
+        int feedbackid = Integer.parseInt(request.getParameter("feedbackid"));
+        int orderid = Integer.parseInt("orderid");
+        String sku = request.getParameter("sku");
         String feedback = request.getParameter("feedback");
-        Feedback fb = new Feedback();
-        fd.insertFeedback(fb);
-        response.sendRedirect("feedback-success.jsp");
+        int star = Integer.parseInt(request.getParameter("star"));
+        
+        Feedback fb = new Feedback(feedbackid, orderid, sku, feedback, star);
+        
+       
+        fb.getFeedbackid();
+        fb.getOrderid();
+        fb.getSku();
+        fb.getFeedback();
+        fb.getStar();
+        
+        FeedbackDAO fd = new FeedbackDAO();
+        boolean success = fd.insertFeedback(fb);
+        
+        if (success){
+            response.sendRedirect("thankyou.jsp");
+        } else {
+            request.setAttribute("error", "Failed to send feedback");
+            request.getRequestDispatcher("feedback.jsp").forward(request, response);
+        }
     }
 
     /**
