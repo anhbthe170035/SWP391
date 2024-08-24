@@ -60,6 +60,12 @@
                         <a class="nav-link" href="userlist">User List <span class="sr-only">(current)</span></a>
                     </c:if>
                 </li>
+                
+                <li class="nav-item active">
+                    <c:if test="${sessionScope.user != null && sessionScope.user.role == 2}">
+                        <a class="nav-link" href="feedback.jsp">Feedback <span class="sr-only">(current)</span></a>
+                    </c:if>
+                </li>
 
             </ul>
             <form class="form-inline my-2 my-lg-0 search" action="Search" method="Get">
