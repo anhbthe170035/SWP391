@@ -64,6 +64,10 @@
         <servlet-class>controller.ProductList</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>FeedbackController</servlet-name>
+        <servlet-class>controller.FeedbackController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>controller.Login</servlet-class>
     </servlet>
@@ -180,6 +184,10 @@
     <servlet-mapping>
         <servlet-name>DeleteItemController</servlet-name>
         <url-pattern>/deleteItem</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FeedbackController</servlet-name>
+        <url-pattern>/feedback</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UpdateQuantityController</servlet-name>

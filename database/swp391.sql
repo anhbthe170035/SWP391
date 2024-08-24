@@ -180,7 +180,7 @@ GO
 
 -- Create the Orders table
 CREATE TABLE Orders (
-    orderid INT NOT NULL PRIMARY KEY,
+    orderid INT IDENTITY(1,1) PRIMARY KEY,
     orderdate DATE NOT NULL,
     totalprice INT NOT NULL,
     username NVARCHAR(50) NOT NULL,
@@ -196,7 +196,7 @@ CREATE TABLE OrderDetails (
     orderid INT NOT NULL,
     sku NVARCHAR(25) NOT NULL,
     quantity INT NOT NULL,
-    discount REAL NULL,
+    discount INT NOT NULL,
     price INT NOT NULL,
     PRIMARY KEY (orderid, sku),
     FOREIGN KEY (orderid) REFERENCES Orders(orderid),
@@ -229,3 +229,67 @@ VALUES
 (1, 'DLPX13-1', 1),  -- Dell XPS 13
 (1, 'MBAIR-M2', 1),   -- MacBook Air M2
 (1, 'ROG14-1', 1);    -- ASUS ROG Zephyrus G14
+
+-- Rename column in Brand table
+EXEC sp_rename 'dbo.Brand.name', 'brandname', 'COLUMN';
+GO
+
+-- Merge gpu1 and gpu2 into gpu1 and remove gpu2
+UPDATE dbo.ProductDetails
+SET gpu = CASE
+    WHEN gpu2 IS NOT NULL THEN CONCAT(gpu, ', ', gpu2)
+    ELSE gpu
+END;
+
+ALTER TABLE dbo.ProductDetails
+DROP COLUMN gpu2;
+GO
+
+-- Add img column to ProductDetails table
+ALTER TABLE dbo.ProductDetails
+ADD img IMAGE;
+GO
+
+-- Create PasswordResetToken table
+CREATE TABLE dbo.PasswordResetToken (
+    username NVARCHAR(50) NOT NULL,
+    token NVARCHAR(255) NOT NULL,
+    expired DATETIME NOT NULL,
+    PRIMARY KEY (username, token),
+    FOREIGN KEY (username) REFERENCES dbo.Users(username)
+);
+GO
+
+-- Create PostCategory table
+CREATE TABLE dbo.PostCategory (
+    cpid INT PRIMARY KEY,
+    cpname NVARCHAR(100) NOT NULL
+);
+GO
+
+-- Create Posts table
+CREATE TABLE dbo.Posts (
+    postid INT PRIMARY KEY IDENTITY(1,1),
+    thumbnail IMAGE,
+    cpid INT NOT NULL,
+    username NVARCHAR(50) NOT NULL,
+    title NVARCHAR(250) NOT NULL,
+    content NVARCHAR(4000) NOT NULL,
+    status NVARCHAR(50) NOT NULL,
+    FOREIGN KEY (cpid) REFERENCES dbo.PostCategory(cpid),
+    FOREIGN KEY (username) REFERENCES dbo.Users(username)
+);
+GO
+
+-- Insert sample data into PostCategory
+INSERT INTO dbo.PostCategory (cpid, cpname) VALUES
+(1, 'Company News'),
+(2, 'Employee Spotlights'),
+(3, 'Workplace Tips');
+GO
+
+-- Insert sample data into Posts
+INSERT INTO dbo.Posts (thumbnail, cpid, username, title, content, status) VALUES
+(NULL, 1, 'employee1', 'Company Milestones', 'An overview of recent milestones achieved by the company.', 'Published'),
+(NULL, 2, 'employee2', 'Employee of the Month', 'Celebrating our Employee of the Month and their achievements.', 'Draft'),
+(NULL, 3, 'employee3', 'Tips for Remote Work', 'Effective strategies for working remotely and staying productive.', 'Published');

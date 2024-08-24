@@ -264,9 +264,9 @@ public class UserDAO extends context.DBContext {
             throw new IllegalArgumentException("User hoặc username không thể null");
         }
 
-        String query = "INSERT INTO [SWP391].[dbo].[Users] "
-                + "([username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role]) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO [dbo].[Users] "
+                + "([username], [password], [name], [gender], [dob], [email], [phone], [status], [role]) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?)";
 
         try ( PreparedStatement st = connection.prepareStatement(query)) {
 
@@ -275,32 +275,31 @@ public class UserDAO extends context.DBContext {
             st.setString(3, user.getName());
             st.setString(4, user.getGender());
             st.setDate(5, user.getDob() != null ? new java.sql.Date(user.getDob().getTime()) : null);
-            st.setString(6, user.getImg());
-            st.setString(7, user.getEmail());
-            st.setString(8, user.getPhone());
-            st.setInt(9, user.getStatus());
-            st.setInt(10, user.getRole());
+            st.setString(6, user.getEmail());
+            st.setString(7, user.getPhone());
+            st.setInt(8, user.getRole());
 
             int rowsAffected = st.executeUpdate();
+            System.out.println(1);
             return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println(2);
             return false;
         }
     }
 
-    public boolean signup(String username, String password, String name, int gender, String email, String dob, String phone, String img, int role) throws ParseException {
+    public boolean signup(String username, String password, String name, String gender, String dob, String email, String phone, int role)  {
         String query = "INSERT INTO [dbo].[Users] "
-                + "([username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role]) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "([username], [password], [name], [gender], [dob], [email], [phone], [role]) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement st = connection.prepareStatement(query);
             st.setString(1, username);
             st.setString(2, Encryption.MD5Encryption(password));
             st.setString(3, name);
-            st.setInt(4, gender);
-            st.setString(5, email);
+            st.setString(4, gender);
             java.sql.Date sqlDob = null;
             if (dob != null && !dob.isEmpty()) {
                 try {
@@ -311,10 +310,10 @@ public class UserDAO extends context.DBContext {
                     return false;
                 }
             }
-            st.setDate(6, sqlDob);
+            st.setDate(5, sqlDob);
+            st.setString(6, email);
             st.setString(7, phone);
-            st.setString(8, img);
-            st.setInt(9, role);
+            st.setInt(8, role);
 
             int rowsAffected = st.executeUpdate();
             return rowsAffected > 0;

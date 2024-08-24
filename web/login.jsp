@@ -15,35 +15,29 @@
         <title>LAPTOP SHOP</title>
     </head>
     <body>
-        <c:set var="p" value="${requestScope.error}" ></c:set>
-        <div id="logreg-forms" style="width: 50">
-            <form class="form-signin" action="login" method="post">
-                <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Login</h1>
-<!--                <div class="social-login">
-                    <button class="btn facebook-btn social-btn" type="button"><span><i class="fab fa-facebook-f"></i> Sign in with Facebook</span> </button>
-                    <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google-plus-g"></i> Sign in with Google+</span> </button>
-                </div>
-                <p style="text-align:center"> OR  </p>-->
-                <input type="username" id="inputUsername" class="form-control" placeholder="Username" required="" autofocus="" name="username">
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" name="password">
-                <h6 style="padding: 10px 0">${error}</h6>
-                <button class="btn btn-success btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Sign in</button>
-                <a href="forgetPass.jsp" id="forgot_pswd">Forgot password?</a>
-            </form>
+    <c:set var="p" value="${requestScope.error}" ></c:set>
+    <div id="logreg-forms" style="width: 50">
+        <form class="form-signin" action="login" method="post">
+            <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Login</h1>
+            <input type="username" id="inputUsername" class="form-control" placeholder="Username" required="" autofocus="" name="username">
+            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" name="password">
+            <h6 style="padding: 10px 0">${error}</h6>
+            <button class="btn btn-success btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Sign in</button>
+            <a href="forgetPass.jsp" id="forgot_pswd">Forgot password?</a>
+            <div class="text-center mt-4">
+                Don't have an account? <a href="register.jsp" class="text-primary">Create Now</a>
+            </div>
+        </form>
+    </form>
 
-            <form action="/reset/password/" class="form-reset">
-                <input type="email" id="resetEmail" class="form-control" placeholder="Email address" required="" autofocus="">
-                <button class="btn btn-primary btn-block" type="submit">Reset Password</button>
-                <a href="#" id="cancel_reset"><i class="fas fa-angle-left"></i> Back</a>
-            </form>
+    <form action="/reset/password/" class="form-reset">
+        <input type="email" id="resetEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+        <button class="btn btn-primary btn-block" type="submit">Reset Password</button>
+    </form>    
+</div>
 
-            
-            <br>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-        </div>
-        
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        
-    </body>
+</body>
 </html>

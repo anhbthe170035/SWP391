@@ -5,12 +5,16 @@
 package controller;
 
 import dao.UserDAO;
+import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -36,30 +40,54 @@ public class Register extends HttpServlet {
         String password = request.getParameter("password");
         String re_password = request.getParameter("re_password");
         String name = request.getParameter("name");
-        int gender = Integer.parseInt(request.getParameter("gender"));
+        String gender = request.getParameter("gender");
         String email = request.getParameter("email");
-        String dob = request.getParameter("date");
+        String dobString = request.getParameter("date");
         String phone = request.getParameter("phone");
-        String img = request.getParameter("img");
         int role = Integer.parseInt(request.getParameter("role"));
         
-        if (password.equals(re_password)){
-            if (ud.checkAccoutExist(username)){
-                request.setAttribute("error", "Username is exist");
+        java.sql.Date dob = null;
+        if (dobString != null && !dobString.isEmpty()) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date utilDate = sdf.parse(dobString);
+                dob = new java.sql.Date(utilDate.getTime());
+            } catch (ParseException e) {
+                e.printStackTrace();
+                request.setAttribute("error", "Invalid date format.");
                 request.getRequestDispatcher("register.jsp").forward(request, response);
+                return;
             }
-            else if (ud.checkEmailExist(email)){
+        }
+        
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(hashPassword(password)); // Ensure passwords are hashed
+        user.setName(name);
+        user.setGender(gender);
+        user.setDob(dob);
+        user.setEmail(email);
+        user.setPhone(phone);
+        user.setRole(role);
+        
+        UserDAO userDAO = new UserDAO();
+        
+        if (password.equals(re_password)){
+            if (userDAO.checkAccoutExist(username)){
+                request.setAttribute("error", "Username is exist");
+                request.getRequestDispatcher("signup.jsp").forward(request, response);
+            }
+            else if (userDAO.checkEmailExist(email)){
                 request.setAttribute("error", "Email is exist");
-                request.getRequestDispatcher("register.jsp").forward(request, response);
+                request.getRequestDispatcher("signup.jsp").forward(request, response);
             }
             else {
-                ud.signup(username, password, name, gender, email, dob, phone, img, role);
+                userDAO.addUser(user);
                 request.setAttribute("error", "Login to Continue");
 
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
         }
-        
         else{
             request.setAttribute("error", "Password not equal Repeat Password");
             request.getRequestDispatcher("register.jsp").forward(request, response);
@@ -93,6 +121,11 @@ public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+    }
+    
+    private String hashPassword(String password) {
+        // Implement your password hashing here (e.g., using BCrypt)
+        return password; // Placeholder - replace with actual hashing logic
     }
 
     /**
