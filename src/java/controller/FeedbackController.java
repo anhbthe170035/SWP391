@@ -77,7 +77,10 @@ public class FeedbackController extends HttpServlet {
         String sku = request.getParameter("sku");
         String feedback = request.getParameter("feedback");
         int star = Integer.parseInt(request.getParameter("star"));
-        Feedback fb = new Feedback();
+        
+        Feedback fb = new Feedback(feedbackid, orderid, sku, feedback, star);
+        
+       
         fb.getFeedbackid();
         fb.getOrderid();
         fb.getSku();
@@ -88,7 +91,7 @@ public class FeedbackController extends HttpServlet {
         boolean success = fd.insertFeedback(fb);
         
         if (success){
-            response.sendRedirect("home.jsp");
+            response.sendRedirect("thankyou.jsp");
         } else {
             request.setAttribute("error", "Failed to send feedback");
             request.getRequestDispatcher("feedback.jsp").forward(request, response);
