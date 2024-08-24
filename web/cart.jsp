@@ -56,7 +56,7 @@
                         <h6>Total Discounted Price: <span id="totalDiscountedPrice">${totalDiscountedPrice}</span></h6>
                         <h3>Final Price: <span id="finalPrice">${finalPrice}</span></h3>
                     </div>
-                    <button type="submit" class="btn btn-success">Check Out</button>
+                    <button type="submit" id="checkoutButton" class="btn btn-success">Check Out</button>
                 </div>
             </div>
         </form>
@@ -73,6 +73,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
+    <script src="./assets/js/checkoutButton.js"></script>
     <script>
         // Print debug message to console
         var debugMessage = '${debugMessage}';

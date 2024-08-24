@@ -18,7 +18,8 @@ public class UserDAO extends context.DBContext {
         List<User> list = new ArrayList<>();
         String query = "SELECT TOP (1000) [username], [password], [name], [gender], [dob], [img], [email], [phone], [status], [role] FROM [SWP391].[dbo].[Users]";
 
-        try ( PreparedStatement st = connection.prepareStatement(query);  ResultSet rs = st.executeQuery()) {
+
+        try (PreparedStatement st = connection.prepareStatement(query); ResultSet rs = st.executeQuery()) {
             while (rs.next()) {
                 User user = mapResultSetToUser(rs);
                 list.add(user);
@@ -55,12 +56,13 @@ public class UserDAO extends context.DBContext {
     public boolean deleteUser(String username) {
         String query = "DELETE FROM [SWP391].[dbo].[Users] WHERE [username] = ?";
 
-        try ( PreparedStatement st = connection.prepareStatement(query)) {
+        try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setString(1, username);
             int rowsAffected = st.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error deleting user: " + e.getMessage());
             return false;
         }
     }
@@ -89,7 +91,8 @@ public class UserDAO extends context.DBContext {
     // Get the total count of users
     public int getUserCount() {
         String sql = "SELECT COUNT(*) FROM [SWP391].[dbo].[Users]";
-        try ( PreparedStatement ps = connection.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
+
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 return rs.getInt(1);
             }
@@ -99,36 +102,21 @@ public class UserDAO extends context.DBContext {
         return 0;
     }
 
-    // Edit a user
     public boolean editUser(User user) {
         if (user == null || user.getUsername() == null) {
             throw new IllegalArgumentException("User or username cannot be null");
         }
 
-        String query = "UPDATE [SWP391].[dbo].[Users] SET "
-                + "[password] = ?, "
-                + "[name] = ?, "
-                + "[gender] = ?, "
-                + "[dob] = ?, "
-                + "[img] = ?, "
-                + "[email] = ?, "
-                + "[phone] = ?, "
-                + "[status] = ?, "
-                + "[role] = ? "
-                + "WHERE [username] = ?";
+        // Define the SQL update query to only modify status and role
+        String query = "UPDATE [SWP391].[dbo].[Users] SET [status] = ?, [role] = ? WHERE [username] = ?";
 
-        try ( PreparedStatement st = connection.prepareStatement(query)) {
-            st.setString(1, user.getPassword());
-            st.setString(2, user.getName());
-            st.setString(3, user.getGender());
-            st.setDate(4, user.getDob() != null ? new java.sql.Date(user.getDob().getTime()) : null);
-            st.setString(5, user.getImg());
-            st.setString(6, user.getEmail());
-            st.setString(7, user.getPhone());
-            st.setInt(8, user.getStatus());
-            st.setInt(9, user.getRole());
-            st.setString(10, user.getUsername());
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            // Set parameters for status, role, and username
+            st.setInt(1, user.getStatus());
+            st.setInt(2, user.getRole());
+            st.setString(3, user.getUsername());
 
+            // Execute the update and return whether rows were affected
             int rowsAffected = st.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
@@ -212,7 +200,7 @@ public class UserDAO extends context.DBContext {
             // Set the username parameter in the query
             pstmt.setString(1, username);
 
-            try ( ResultSet rs = pstmt.executeQuery()) {
+            try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     role = rs.getInt("role");
                 }
@@ -323,6 +311,7 @@ public class UserDAO extends context.DBContext {
         }
     }
 
+
     public boolean checkAccoutExist(String username) {
         String query = "select * from [dbo].[Users] where username = ?";
         try {
@@ -354,4 +343,27 @@ public class UserDAO extends context.DBContext {
 
         return false;
     }
+
+    public boolean updateUserProfile(User user) {
+        String sql = "UPDATE Users SET password = ?, name = ?, gender = ?, dob = ?, img = ?, email = ?, phone = ? WHERE username = ?";
+
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, user.getPassword());
+            ps.setString(2, user.getName());
+            ps.setString(3, user.getGender());
+            ps.setDate(4, user.getDob());
+            ps.setString(5, user.getImg());
+            ps.setString(6, user.getEmail());
+            ps.setString(7, user.getPhone());
+            ps.setString(8, user.getUsername());
+
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

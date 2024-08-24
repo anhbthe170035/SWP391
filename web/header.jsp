@@ -28,22 +28,23 @@
                         <a class="dropdown-item" href="#">Something else here</a>
                     </div>
                 </li>
-                
+
                 <li class="nav-item active">
-                    <c:if test="${sessionScope.user == null}">
-                        <a class="nav-link" href="ProductList">Product List <span class="sr-only">(current)</span></a>
-                    </c:if>
+
                     <c:if test="${sessionScope.user != null}">
-                        <a class="nav-link" href="ProductList">Product List <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="ProductList?userName=${sessionScope.user.username}">Product List <span class="sr-only">(current)</span></a>
                     </c:if>
                 </li>
 
                 <li class="nav-item active">
-                    <c:if test="${sessionScope.user == null}">
-                        <a class="nav-link" href="login.jsp">Orders <span class="sr-only">(current)</span></a>
-                    </c:if>
                     <c:if test="${sessionScope.user != null}">
-                        <a class="nav-link" href="orders?userName=${sessionScope.user.username}">Orders <span class="sr-only">(current)</span></a>
+
+                        <c:if test="${sessionScope.user.role == '0'}">
+                            <a class="nav-link" href="orderListAdmin">Orders <span class="sr-only">(current)</span></a>
+                        </c:if>
+                        <c:if test="${sessionScope.user.role == '2'}">
+                            <a class="nav-link" href="orderUser?userName=${sessionScope.user.username}">Orders <span class="sr-only">(current)</span></a>
+                        </c:if>
                     </c:if>
                 </li>
 
@@ -55,7 +56,7 @@
                         <a class="nav-link" href="cart">Cart <span class="sr-only">(current)</span></a>
                     </c:if>
                 </li>
-                
+
                 <li class="nav-item active">
                     <c:if test="${sessionScope.user != null && sessionScope.user.role == 0}">
                         <a class="nav-link" href="userlist">User List <span class="sr-only">(current)</span></a>
@@ -89,7 +90,7 @@
             </c:if>
             <c:if test="${sessionScope.user != null && sessionScope.user.role == 0}">
                 <form class="form-inline my-2 my-lg-0">
-                    
+
                     <a href="admin.jsp" class="btn btn-outline-success my-2 my-sm-0 btn-nav">Admin</a>
                 </form>
             </c:if>
