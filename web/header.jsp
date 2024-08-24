@@ -80,7 +80,7 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="profile.jsp">Profile</a>
-                            <a class="dropdown-item" href="resetpwd?u=${sessionScope.user.username}">Change Password</a>
+                            <a class="dropdown-item" href="changepwd">Change Password</a>
                             <a class="dropdown-item" href="logout">Logout</a>
                         </div>
                     </div>

@@ -4,7 +4,7 @@
  */
 package controller;
 
-import entity.User;
+import dao.PasswordResetTokenDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -32,12 +32,33 @@ public class ResetPassword extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("u");
+        String token = request.getParameter("token");
 
-        if (username != null && !username.isEmpty()) {
-            request.setAttribute("username", username);
-            request.getRequestDispatcher("/resetpass.jsp").forward(request, response);
+        if (token != null && !token.isEmpty()) {
+            PasswordResetTokenDAO tokenDAO = new PasswordResetTokenDAO();
+
+            // Check if the token is valid
+            if (tokenDAO.isTokenValid(token)) {
+                // Get the username associated with the token
+                String username = tokenDAO.getUsernameByToken(token);
+
+                if (username != null) {
+                    // Forward to the reset password page with the username
+                    request.setAttribute("username", username);
+                    request.setAttribute("token", token);
+                    request.getRequestDispatcher("/resetpass.jsp").forward(request, response);
+                } else {
+                    // Username not found for the token
+                    request.setAttribute("message", "Invalid token.");
+                    request.getRequestDispatcher("/result.jsp").forward(request, response);
+                }
+            } else {
+                // Token is either expired or already used
+                request.setAttribute("message", "Token is invalid or has expired.");
+                request.getRequestDispatcher("/result.jsp").forward(request, response);
+            }
         } else {
+            // Token parameter is missing
             response.sendRedirect(request.getContextPath() + "/login");
         }
     }
@@ -56,14 +77,30 @@ public class ResetPassword extends HttpServlet {
         String username = request.getParameter("username");
         String newpass = request.getParameter("newpass");
         String repass = request.getParameter("renewpass");
-        UserDAO ud = new UserDAO();
+        String token = request.getParameter("token");
+        UserDAO userDAO = new UserDAO();
 
         if (newpass.equalsIgnoreCase(repass)) {
-            ud.changePass(username, newpass);
-            response.sendRedirect(request.getContextPath() + "/resetpass_success.jsp");
+            PasswordResetTokenDAO tokenDAO = new PasswordResetTokenDAO();
+
+            if (tokenDAO.isTokenValid(token)) {
+                if (userDAO.changePass(username, newpass)) {
+                    tokenDAO.markTokenAsUsed(token); // Mark the token as used
+                    response.sendRedirect(request.getContextPath() + "/resetpass_success.jsp");
+                } else {
+                    request.setAttribute("errorresetpass", "Failed to change password, try again");
+                    request.setAttribute("username", username);
+                    request.setAttribute("token", token); // Pass token to the JSP
+                    request.getRequestDispatcher("/resetpass.jsp").forward(request, response);
+                }
+            } else {
+                request.setAttribute("errorresetpass", "Token is invalid or expired");
+                request.getRequestDispatcher("/resetpass.jsp").forward(request, response);
+            }
         } else {
-            request.setAttribute("errorresetpass", "Re-pass not equal, try again");
-            request.setAttribute("username", username); // Pass username back to JSP
+            request.setAttribute("errorresetpass", "Passwords do not match, try again");
+            request.setAttribute("username", username);
+            request.setAttribute("token", token); // Pass token to the JSP
             request.getRequestDispatcher("/resetpass.jsp").forward(request, response);
         }
     }
