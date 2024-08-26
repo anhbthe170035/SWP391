@@ -22,7 +22,7 @@ public class OrderDAO extends DBContext {
     public List<Order> getOrders(int pageNumber, int pageSize) {
         List<Order> list = new ArrayList<>();
         int offset = (pageNumber - 1) * pageSize;
-        try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(SELECT_ORDERS_PAGINATED_SQL)) {
+        try (PreparedStatement ps = connection.prepareStatement(SELECT_ORDERS_PAGINATED_SQL)) {
             ps.setInt(1, offset);
             ps.setInt(2, pageSize);
             try (ResultSet rs = ps.executeQuery()) {
@@ -40,7 +40,7 @@ public class OrderDAO extends DBContext {
     // Lấy tổng số đơn hàng
     public int getTotalOrders() {
         int totalOrders = 0;
-        try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(COUNT_TOTAL_ORDERS_SQL); ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = connection.prepareStatement(COUNT_TOTAL_ORDERS_SQL); ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 totalOrders = rs.getInt(1);
             }
@@ -89,7 +89,7 @@ public class OrderDAO extends DBContext {
         List<Order> orderList = new ArrayList<>();
         String query = "SELECT * FROM Orders WHERE username = ? ORDER BY orderdate DESC";
 
-        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
 
             ps.setString(1, username);
 

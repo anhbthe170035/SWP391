@@ -19,7 +19,7 @@ public class OrderDetailsDAO extends DBContext {
         List<OrderDetails> orderDetailsList = new ArrayList<>();
         String query = "SELECT * FROM OrderDetails WHERE orderid = ?";
 
-        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( PreparedStatement ps = connection.prepareStatement(query)) {
 
             ps.setInt(1, orderId);
 
@@ -45,7 +45,7 @@ public class OrderDetailsDAO extends DBContext {
 
     public boolean addOrderDetail(OrderDetails orderDetail) {
         String query = "INSERT INTO OrderDetails (orderid, sku, quantity, discount, price) VALUES (?, ?, ?, ?, ?)";
-        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( PreparedStatement ps = connection.prepareStatement(query)) {
 
             ps.setInt(1, orderDetail.getOrderId());
             ps.setString(2, orderDetail.getSku());
@@ -65,7 +65,7 @@ public class OrderDetailsDAO extends DBContext {
     public boolean updateOrderDetail(OrderDetails orderDetail) {
         String query = "UPDATE OrderDetails SET quantity = ?, discount = ?, price = ? WHERE orderid = ? AND sku = ?";
 
-        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( PreparedStatement ps = connection.prepareStatement(query)) {
 
             ps.setInt(1, orderDetail.getQuantity());
             ps.setFloat(2, orderDetail.getDiscount());
@@ -85,7 +85,7 @@ public class OrderDetailsDAO extends DBContext {
     public boolean deleteOrderDetail(int orderId, String sku) {
         String query = "DELETE FROM OrderDetails WHERE orderid = ? AND sku = ?";
 
-        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+        try ( PreparedStatement ps = connection.prepareStatement(query)) {
 
             ps.setInt(1, orderId);
             ps.setString(2, sku);
