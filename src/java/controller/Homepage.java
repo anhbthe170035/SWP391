@@ -14,7 +14,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -39,9 +42,17 @@ public class Homepage extends HttpServlet {
         
         List<Product> listProduct = pd.getAllProduct();
         List<Category> listCategory = cd.getAllCategory();
-        
+            
+        // Create a map to hold SKUs for each product
+        Map<String, List<String>> skusMap = new HashMap<>();
+        for (Product product : listProduct) {
+            List<String> skus = pd.getSKUsByProductId(product.getPid());
+            skusMap.put(product.getPid(), skus);
+        }
+
         request.setAttribute("listProduct", listProduct);
         request.setAttribute("listCategory", listCategory);
+        request.setAttribute("skusMap", skusMap);
         
         request.getRequestDispatcher("home.jsp").forward(request, response);
     }

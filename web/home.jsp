@@ -60,21 +60,33 @@
         </div>
 
         <div class="content row">
-            <c:forEach items="${listProduct}" var="product">  
+            <c:forEach items="${listProduct}" var="product">
                 <div class="col-md-4">
                     <div class="product-item">
-                          <a class="text name" href="product?pid=${product.idpro}">${product.name}</a>
-                          <div class="text price">${product.description} </div>
-                        <c:if test="${sessionScope.user != null}">
-                            <a class="buy" href="product?pid=${product.idpro}">Buy</a>
-                        </c:if>
-                        <c:if test="${sessionScope.user == null}">
-                            <a class="buy" href="login.jsp">Buy</a>
+                        <a class="text name" href="product?pid=${product.pid}">${product.name}</a>
+                        <div class="text price">${product.description}</div>
+                        
+                        <!-- Details Button -->
+                        <a class="buy" href="product?pid=${product.pid}">Details</a>
+                        
+                        <!-- SKU Dropdown -->
+                        <c:if test="${not empty skusMap[product.pid]}">
+                            <form action="addcart" method="get" class="form-inline">
+                                <div class="form-group mx-sm-3 mb-2">
+                                    <select name="sku" class="form-control">
+                                        <c:forEach items="${skusMap[product.pid]}" var="sku">
+                                            <option value="${sku}">${sku}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <input type="hidden" name="pid" value="${product.pid}"/>
+                                <button type="submit" class="btn btn-primary mb-2">Add to Cart</button>
+                            </form>
                         </c:if>
                     </div>
                 </div>
-            </c:forEach>  
-        </div>
+            </c:forEach>
+        </div>        
         <jsp:include page="footer.jsp"></jsp:include>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
                 integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

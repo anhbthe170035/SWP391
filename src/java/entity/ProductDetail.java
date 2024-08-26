@@ -9,13 +9,30 @@ package entity;
  * @author JoringeN
  */
 public class ProductDetail {
-    private String sku, pid, color, cpu, cpu_specs, ram, ram_max, gpu, gpu2, storage, monitor, status,name, brand,description,img;
-    private int price, sale;
+
+    private String sku;
+    private String pid;
+    private String color;
+    private String cpu;
+    private String cpu_specs;
+    private String ram;
+    private String ram_max;
+    private String gpu;
+    private String storage;
+    private String monitor;
+    private String status;
+    private String name;
+    private String brand;
+    private String description;
+    private String img; // Change from String to byte[]
+    private int price;
+    private int sale;
+    private boolean enable; // Change from String to boolean
 
     public ProductDetail() {
     }
 
-    public ProductDetail(String sku, String pid, String color, String cpu, String cpu_specs, String ram, String ram_max, String gpu, String gpu2, String storage, String monitor, String status, String name, String brand, String description, String img, int price, int sale) {
+    public ProductDetail(String sku, String pid, String color, String cpu, String cpu_specs, String ram, String ram_max, String gpu, String storage, String monitor, String status, String name, String brand, String description, String img, int price, int sale, boolean enable) {
         this.sku = sku;
         this.pid = pid;
         this.color = color;
@@ -24,7 +41,6 @@ public class ProductDetail {
         this.ram = ram;
         this.ram_max = ram_max;
         this.gpu = gpu;
-        this.gpu2 = gpu2;
         this.storage = storage;
         this.monitor = monitor;
         this.status = status;
@@ -34,6 +50,7 @@ public class ProductDetail {
         this.img = img;
         this.price = price;
         this.sale = sale;
+        this.enable = enable;
     }
 
     public String getSku() {
@@ -98,14 +115,6 @@ public class ProductDetail {
 
     public void setGpu(String gpu) {
         this.gpu = gpu;
-    }
-
-    public String getGpu2() {
-        return gpu2;
-    }
-
-    public void setGpu2(String gpu2) {
-        this.gpu2 = gpu2;
     }
 
     public String getStorage() {
@@ -180,4 +189,11 @@ public class ProductDetail {
         this.sale = sale;
     }
 
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
 }
