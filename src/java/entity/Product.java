@@ -9,29 +9,29 @@ package entity;
  * @author Admin
  */
 public class Product {
-    private String idpro;
+    private String pid; // Changed from idpro to pid for consistency with SQL
     private String name;
     private String description;
-    private String cid;
-    private String brand;
+    private int cid; // Changed to int
+    private int brandid; // Changed to int
 
     public Product() {
     }
 
-    public Product(String idpro, String name, String description, String cid, String brand) {
-        this.idpro = idpro;
+    public Product(String pid, String name, String description, int cid, int brandid) {
+        this.pid = pid;
         this.name = name;
         this.description = description;
         this.cid = cid;
-        this.brand = brand;
+        this.brandid = brandid;
     }
 
-    public String getIdpro() {
-        return idpro;
+    public String getPid() {
+        return pid;
     }
 
-    public void setIdpro(String idpro) {
-        this.idpro = idpro;
+    public void setPid(String pid) {
+        this.pid = pid;
     }
 
     public String getName() {
@@ -50,24 +50,24 @@ public class Product {
         this.description = description;
     }
 
-    public String getCid() {
+    public int getCid() {
         return cid;
     }
 
-    public void setCid(String cid) {
+    public void setCid(int cid) {
         this.cid = cid;
     }
 
-    public String getBrand() {
-        return brand;
+    public int getBrandid() {
+        return brandid;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setBrandid(int brandid) {
+        this.brandid = brandid;
     }
 
     @Override
     public String toString() {
-        return "Product{" + "idpro=" + idpro + ", name=" + name + ", description=" + description + ", cid=" + cid + ", brand=" + brand + '}';
+        return "Product{" + "pid=" + pid + ", name=" + name + ", description=" + description + ", cid=" + cid + ", brandid=" + brandid + '}';
     }
 }

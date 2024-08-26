@@ -7,12 +7,12 @@ package dao;
 import context.DBContext;
 import entity.Category;
 import entity.Product;
+import entity.ProductDetail;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import entity.ProductDetail;
 
 /**
  *
@@ -22,144 +22,159 @@ public class ProductDAO extends DBContext {
 
     public List<Product> getAllProduct() {
         List<Product> list = new ArrayList<>();
-        String sql = "select * from [Products]";
+        String sql = "SELECT * FROM dbo.Products";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new Product(rs.getString(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5)
+                list.add(new Product(
+                        rs.getString("pid"),
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getInt("cid"),
+                        rs.getInt("brandid")
                 ));
             }
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
         return list;
     }
-    public List<ProductDetail> getAllProductDetail(){
-    List<ProductDetail> list = new ArrayList<>();
-    String sql ="""
-                select ProductDetails.*, Products.*, Brand.brandname
-                                from ProductDetails
-                                inner join Products on ProductDetails.pid = Products.pid
-                                inner join Brand on Products.brandid = Brand.brandid""";
-    try {
+
+    public List<ProductDetail> getAllProductDetail() {
+        List<ProductDetail> list = new ArrayList<>();
+        String sql = """
+            SELECT ProductDetails.*, Products.*, Brand.name AS brandname
+            FROM dbo.ProductDetails
+            INNER JOIN dbo.Products ON ProductDetails.pid = Products.pid
+            INNER JOIN dbo.Brand ON Products.brandid = Brand.brandid
+        """;
+        try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            String xsku, xpid, xcolor, xcpu, xcpu_specs, xram, xram_max, xgpu, xgpu2, xstorage, xmonitor,xstatus,xname,xbrand,xdescription,ximg;
-            int xprice, xsale;
-            ProductDetail x;
             while (rs.next()) {
-                xsku = rs.getString("sku");
-                xpid = rs.getString("pid");
-                xcolor = rs.getString("color");
-                xcpu = rs.getString("cpu");
-                xcpu_specs = rs.getString("cpu_specs");
-                xram = rs.getString("ram");
-                xram_max = rs.getString("ram_max");
-                xgpu = rs.getString("gpu");
-                xgpu2 = rs.getString("gpu2");
-                xstorage = rs.getString("storage");
-                xmonitor = rs.getString("monitor");
-                xstatus = rs.getString("status");
-                xname = rs.getString("name");
-                xbrand = rs.getString("brandname");
-                xdescription = rs.getString("description");
-                ximg = rs.getString("enable");
-                xprice = rs.getInt("price");
-                xsale = rs.getInt("sale");
-                x = new ProductDetail(xsku, xpid, xcolor, xcpu, xcpu_specs, xram, xram_max, xgpu, xgpu2, xstorage, xmonitor, xstatus, xname, xbrand, xdescription, ximg, xprice, xsale);
-                list.add(x);
+                list.add(new ProductDetail(
+                        rs.getString("sku"),
+                        rs.getString("pid"),
+                        rs.getString("color"),
+                        rs.getString("cpu"),
+                        rs.getString("cpu_specs"),
+                        rs.getString("ram"),
+                        rs.getString("ram_max"),
+                        rs.getString("gpu"),
+                        rs.getString("storage"),
+                        rs.getString("monitor"),
+                        rs.getString("status"),
+                        rs.getString("name"),
+                        rs.getString("brandname"),
+                        rs.getString("description"),
+                        rs.getString("img"),
+                        rs.getInt("price"),
+                        rs.getInt("sale"),
+                        rs.getBoolean("enable")
+                ));
             }
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
-    return list;
+        return list;
     }
-    public List<ProductDetail> searchProduct(String xxname){
-    List<ProductDetail> list = new ArrayList<>();
-    String sql ="""
-                select ProductDetails.*, Products.*, Brand.brandname
-                                                from ProductDetails
-                                                inner join Products on ProductDetails.pid = Products.pid
-                                                inner join Brand on Products.brandid = Brand.brandid WHERE Products.name like ?""";
-    try {
+
+    public List<ProductDetail> searchProduct(String xxname) {
+        List<ProductDetail> list = new ArrayList<>();
+        String sql = """
+            SELECT ProductDetails.*, Products.*, Brand.name AS brandname
+            FROM dbo.ProductDetails
+            INNER JOIN dbo.Products ON ProductDetails.pid = Products.pid
+            INNER JOIN dbo.Brand ON Products.brandid = Brand.brandid
+            WHERE Products.name LIKE ?
+        """;
+        try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, "%" +xxname + "%");
+            ps.setString(1, "%" + xxname + "%");
             ResultSet rs = ps.executeQuery();
-            String xsku, xpid, xcolor, xcpu, xcpu_specs, xram, xram_max, xgpu, xgpu2, xstorage, xmonitor,xstatus,xname,xbrand,xdescription,ximg;
-            int xprice, xsale;
-            ProductDetail x;
             while (rs.next()) {
-                xsku = rs.getString("sku");
-                xpid = rs.getString("pid");
-                xcolor = rs.getString("color");
-                xcpu = rs.getString("cpu");
-                xcpu_specs = rs.getString("cpu_specs");
-                xram = rs.getString("ram");
-                xram_max = rs.getString("ram_max");
-                xgpu = rs.getString("gpu");
-                xgpu2 = rs.getString("gpu2");
-                xstorage = rs.getString("storage");
-                xmonitor = rs.getString("monitor");
-                xstatus = rs.getString("status");
-                xname = rs.getString("name");
-                xbrand = rs.getString("brandname");
-                xdescription = rs.getString("description");
-                ximg = rs.getString("enable");
-                xprice = rs.getInt("price");
-                xsale = rs.getInt("sale");
-                x = new ProductDetail(xsku, xpid, xcolor, xcpu, xcpu_specs, xram, xram_max, xgpu, xgpu2, xstorage, xmonitor, xstatus, xname, xbrand, xdescription, ximg, xprice, xsale);
-                list.add(x);
+                list.add(new ProductDetail(
+                        rs.getString("sku"),
+                        rs.getString("pid"),
+                        rs.getString("color"),
+                        rs.getString("cpu"),
+                        rs.getString("cpu_specs"),
+                        rs.getString("ram"),
+                        rs.getString("ram_max"),
+                        rs.getString("gpu"),
+                        rs.getString("storage"),
+                        rs.getString("monitor"),
+                        rs.getString("status"),
+                        rs.getString("name"),
+                        rs.getString("brandname"),
+                        rs.getString("description"),
+                        rs.getString("img"),
+                        rs.getInt("price"),
+                        rs.getInt("sale"),
+                        rs.getBoolean("enable")
+                ));
             }
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
-    return list;
+        return list;
     }
-    public List<ProductDetail> GetProductDetail(String xxsku){
-    List<ProductDetail> list = new ArrayList<>();
-    String sql ="""
-                select ProductDetails.*, Products.*, Brand.brandname
-                                                from ProductDetails
-                                                inner join Products on ProductDetails.pid = Products.pid
-                                                inner join Brand on Products.brandid = Brand.brandid WHERE ProductDetails.sku = ?""";
-    try {
+
+    public List<ProductDetail> getProductDetail(String xxsku) {
+        List<ProductDetail> list = new ArrayList<>();
+        String sql = """
+            SELECT ProductDetails.*, Products.*, Brand.name AS brandname
+            FROM dbo.ProductDetails
+            INNER JOIN dbo.Products ON ProductDetails.pid = Products.pid
+            INNER JOIN dbo.Brand ON Products.brandid = Brand.brandid
+            WHERE ProductDetails.sku = ?
+        """;
+        try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, xxsku);
             ResultSet rs = ps.executeQuery();
-            String xsku, xpid, xcolor, xcpu, xcpu_specs, xram, xram_max, xgpu, xgpu2, xstorage, xmonitor,xstatus,xname,xbrand,xdescription,ximg;
-            int xprice, xsale;
-            ProductDetail x;
             while (rs.next()) {
-                xsku = rs.getString("sku");
-                xpid = rs.getString("pid");
-                xcolor = rs.getString("color");
-                xcpu = rs.getString("cpu");
-                xcpu_specs = rs.getString("cpu_specs");
-                xram = rs.getString("ram");
-                xram_max = rs.getString("ram_max");
-                xgpu = rs.getString("gpu");
-                xgpu2 = rs.getString("gpu2");
-                xstorage = rs.getString("storage");
-                xmonitor = rs.getString("monitor");
-                xstatus = rs.getString("status");
-                xname = rs.getString("name");
-                xbrand = rs.getString("brandname");
-                xdescription = rs.getString("description");
-                ximg = rs.getString("enable");
-                xprice = rs.getInt("price");
-                xsale = rs.getInt("sale");
-                x = new ProductDetail(xsku, xpid, xcolor, xcpu, xcpu_specs, xram, xram_max, xgpu, xgpu2, xstorage, xmonitor, xstatus, xname, xbrand, xdescription, ximg, xprice, xsale);
-                list.add(x);
+                list.add(new ProductDetail(
+                        rs.getString("sku"),
+                        rs.getString("pid"),
+                        rs.getString("color"),
+                        rs.getString("cpu"),
+                        rs.getString("cpu_specs"),
+                        rs.getString("ram"),
+                        rs.getString("ram_max"),
+                        rs.getString("gpu"),
+                        rs.getString("storage"),
+                        rs.getString("monitor"),
+                        rs.getString("status"),
+                        rs.getString("name"),
+                        rs.getString("brandname"),
+                        rs.getString("description"),
+                        rs.getString("img"),
+                        rs.getInt("price"),
+                        rs.getInt("sale"),
+                        rs.getBoolean("enable")
+                ));
             }
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
-    return list;
+        return list;
     }
  
+    public List<String> getSKUsByProductId(String pid) {
+        List<String> skus = new ArrayList<>();
+        String sql = "SELECT sku FROM dbo.ProductDetails WHERE pid = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, pid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                skus.add(rs.getString("sku"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return skus;
+    }
+    
 }
