@@ -97,6 +97,10 @@
         <servlet-name>ChangePassword</servlet-name>
         <servlet-class>controller.ChangePassword</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddCartController</servlet-name>
+        <servlet-class>controller.AddCartController</servlet-class>
+    </servlet>
 
     <!-- Servlet Mappings -->
     <servlet-mapping>
@@ -189,6 +193,10 @@
         <servlet-name>ChangePassword</servlet-name>
         <url-pattern>/changepwd</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddCartController</servlet-name>
+        <url-pattern>/addcart</url-pattern>
+    </servlet-mapping>
 
     <!-- Filters -->
     <filter>
@@ -221,6 +229,7 @@
         <url-pattern>/profile.jsp</url-pattern>
         <url-pattern>/orderDetails.jsp</url-pattern>
         <url-pattern>/OrderHistory.jsp</url-pattern>
+        <servlet-name>AddCartController</servlet-name>
         <servlet-name>ChangePassword</servlet-name>
         <servlet-name>HistoryOrder</servlet-name>
         <servlet-name>Orders</servlet-name>

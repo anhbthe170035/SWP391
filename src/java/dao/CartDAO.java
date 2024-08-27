@@ -145,4 +145,50 @@ public class CartDAO extends DBContext {
         }
         return details;
     }    
+
+    public void createCart(Cart cart) {
+        String sql = "INSERT INTO dbo.Carts (username) VALUES (?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, cart.getUsername());
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                cart.setCartid(rs.getInt(1));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void addCartDetail(CartDetails cartDetails) {
+        String sql = "INSERT INTO dbo.CartDetails (cartid, sku, amount) VALUES (?, ?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, cartDetails.getCartid());
+            ps.setString(2, cartDetails.getSku());
+            ps.setInt(3, cartDetails.getAmount());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public CartDetails getCartDetailBySkuAndCartId(String sku, int cartid) {
+        CartDetails details = null;
+        String sql = "SELECT * FROM dbo.CartDetails WHERE sku = ? AND cartid = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, sku);
+            ps.setInt(2, cartid);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                details = new CartDetails();
+                details.setCdeid(rs.getInt("cdeid"));
+                details.setCartid(rs.getInt("cartid"));
+                details.setSku(rs.getString("sku"));
+                details.setAmount(rs.getInt("amount"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return details;
+    }
 }

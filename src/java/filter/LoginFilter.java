@@ -107,13 +107,22 @@ public class LoginFilter implements Filter {
         doBeforeProcessing(request, response);
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
+        String requestURI = req.getRequestURI();
         try {
             User u = (User) req.getSession().getAttribute("user");
             if (u.getName() == null && u.getName().isEmpty()) {
-                res.sendRedirect("home");
+                if (requestURI.contains("addcart")) {
+                    res.sendRedirect("login");
+                } else {
+                    res.sendRedirect("home");
+                }
             }
         } catch (NullPointerException e) {
-            res.sendRedirect("home");
+            if (requestURI.contains("addcart")) {
+                res.sendRedirect("login");
+            } else {
+                res.sendRedirect("home");
+            }
         }
         
         Throwable problem = null;
