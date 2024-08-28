@@ -74,7 +74,7 @@
                         <input type="text" class="form-control" id="customerEmail" name="customerEmail" value="${customerEmail}" readonly/>
                     </div>
                     <div class="form-group">
-                        <label for="address">Address</label>
+                        <label for="address">To continue, please put your address here</label>
                         <textarea id="address" name="address" class="form-control"></textarea>
                     </div>
 

@@ -71,9 +71,8 @@ public class AddCartController extends HttpServlet {
 
         if (cart == null) {
             // Create a new cart if it doesn't exist
-            cart = new Cart();
-            cart.setUsername(username);
-            cartDAO.createCart(cart); // You need to implement this method in CartDAO
+            cartDAO.createCart(username);
+            cart = cartDAO.getCartByUsername(username);
         }
 
         int cartId = cart.getCartid();

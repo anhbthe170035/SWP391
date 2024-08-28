@@ -146,15 +146,11 @@ public class CartDAO extends DBContext {
         return details;
     }    
 
-    public void createCart(Cart cart) {
+    public void createCart(String username) {
         String sql = "INSERT INTO dbo.Carts (username) VALUES (?)";
-        try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, cart.getUsername());
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, username);
             ps.executeUpdate();
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()) {
-                cart.setCartid(rs.getInt(1));
-            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
