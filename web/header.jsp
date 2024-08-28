@@ -48,7 +48,7 @@
 
                 <li class="nav-item active">
                     <c:if test="${sessionScope.user == null}">
-                        <a class="nav-link" href="login.jsp">Cart <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="login">Cart <span class="sr-only">(current)</span></a>
                     </c:if>
                     <c:if test="${sessionScope.user != null}">
                         <a class="nav-link" href="cart">Cart <span class="sr-only">(current)</span></a>
@@ -74,7 +74,7 @@
             </form>
             <c:if test="${sessionScope.user == null}">
                 <form class="form-inline my-2 my-lg-0">
-                    <a href="login.jsp" class="btn btn-outline-success my-2 my-sm-0 btn-nav">Login</a>
+                    <a href="login" class="btn btn-outline-success my-2 my-sm-0 btn-nav">Login</a>
                     <a href="register.jsp" class="btn btn-outline-success my-2 my-sm-0 btn-nav">Register</a>
                 </form>
             </c:if>

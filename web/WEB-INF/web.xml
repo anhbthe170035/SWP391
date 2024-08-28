@@ -240,7 +240,8 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>LoggedFilter</filter-name>
-        <url-pattern>/login</url-pattern>
+        <servlet-name>Login</servlet-name>
+        <servlet-name>Register</servlet-name>
     </filter-mapping>
 
 </web-app>

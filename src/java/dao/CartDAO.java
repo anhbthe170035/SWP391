@@ -57,7 +57,7 @@ public class CartDAO extends DBContext {
                 String productName = rs.getString("productName") + ", " +
                                      rs.getString("color") + ", " +
                                      rs.getString("cpu") + ", " +
-                                     rs.getString("ram") + ", " +
+                                     rs.getString("ram") + " RAM, " +
                                      rs.getString("storage") + ", " +
                                      rs.getString("monitor");
                 details.setProductName(productName);
