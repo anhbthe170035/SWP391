@@ -52,7 +52,7 @@
         <div class="thank-you-submessage">You can check your order at the Orders page, or you can go back to the Homepage</div>
         <div class="button-container">
             <a href="home" class="btn btn-large btn-home">Home</a>
-            <a href="orders" class="btn btn-large btn-orders">Orders</a>
+            <a href="orderUser?userName=${sessionScope.user.username}" class="btn btn-large btn-orders">Orders</a>
         </div>
     </div>
     <jsp:include page="footer.jsp"/>
