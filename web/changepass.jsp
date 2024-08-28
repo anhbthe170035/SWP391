@@ -38,7 +38,7 @@
                     <div class="form-group">
                         <label for="inputPasswordNew">New Password</label>
                         <input type="password" class="form-control" id="inputPasswordNew" required="" name="newpass">
-                        <span class="form-text small text-muted"></span>
+                        <span class="form-text small text-muted">Password must be 12~21 characters long</span>
                     </div>
                     <div class="form-group">
                         <label for="inputPasswordNewVerify">Verify New Password</label>

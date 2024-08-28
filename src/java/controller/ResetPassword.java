@@ -80,6 +80,15 @@ public class ResetPassword extends HttpServlet {
         String token = request.getParameter("token");
         UserDAO userDAO = new UserDAO();
 
+        // Password length validation
+        if (newpass.length() < 12 || newpass.length() > 21) {
+            request.setAttribute("errorresetpass", "Password must be between 12 and 21 characters.");
+            request.setAttribute("username", username);
+            request.setAttribute("token", token);
+            request.getRequestDispatcher("/resetpass.jsp").forward(request, response);
+            return;
+        }
+
         if (newpass.equalsIgnoreCase(repass)) {
             PasswordResetTokenDAO tokenDAO = new PasswordResetTokenDAO();
 

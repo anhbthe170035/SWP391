@@ -91,6 +91,9 @@ public class CartController extends HttpServlet {
                 String quantityParam = request.getParameter("quantity_" + cdeid);
                 if (quantityParam != null) {
                     int newAmount = Integer.parseInt(quantityParam);
+                    if (newAmount <= 0) {
+                        newAmount = 1; // Ensure quantity is at least 1
+                    }
                     if (!cartDAO.updateCartItemQuantity(cdeid, newAmount)) {
                         System.out.println("Failed to update quantity for item: " + cdeid);
                     }

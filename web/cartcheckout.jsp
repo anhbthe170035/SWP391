@@ -75,7 +75,8 @@
                     </div>
                     <div class="form-group">
                         <label for="address">To continue, please put your address here</label>
-                        <textarea id="address" name="address" class="form-control"></textarea>
+                        <textarea id="address" name="address" class="form-control" maxlength="250"></textarea>
+                        <small class="form-text text-muted">Address can only accept 250 characters.</small>
                     </div>
 
                     <!-- Hidden inputs for selected items -->

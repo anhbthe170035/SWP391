@@ -78,6 +78,14 @@ public class ChangePassword extends HttpServlet {
             return;
         }
 
+        // Check new password length
+        if (newPass.length() < 12 || newPass.length() > 21) {
+            request.setAttribute("errorchangepass", "New password must be between 12 and 21 characters.");
+            request.setAttribute("username", username);
+            request.getRequestDispatcher("/changepass.jsp").forward(request, response);
+            return;
+        }
+
         // Check if new passwords match
         if (newPass.equals(reNewPass)) {
             userDAO.changePass(username, newPass);
