@@ -17,6 +17,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  *
@@ -88,13 +90,21 @@ public class CartCheckoutController extends HttpServlet {
                 int quantity = item.getAmount();
                 int price = item.getPrice();
                 int discount = item.getDiscount();
+                
+                // The below is actually these code to calculate the final price
+                // but due to different rounding compare the cart price, we switch to BigDecimal & RoundingMode
+                // int itemPrice = price * quantity;
+                // int discountAmount = (price * (100 - discount)) / 100;
+                // int itemDiscountedPrice = (itemPrice - discountAmount * quantity);
+                BigDecimal priceBD = new BigDecimal(price);
+                BigDecimal quantityBD = new BigDecimal(quantity);
+                BigDecimal discountBD = new BigDecimal(discount);                
+                BigDecimal itemPrice = priceBD.multiply(quantityBD).setScale(0, RoundingMode.HALF_UP);
+                BigDecimal discountAmount = priceBD.multiply(BigDecimal.valueOf(100 - discount)).divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP);
+                BigDecimal itemDiscountedPrice = itemPrice.subtract(discountAmount.multiply(quantityBD)).setScale(0, RoundingMode.HALF_UP);
 
-                int itemPrice = price * quantity;
-                int discountAmount = (price * (100 - discount)) / 100;
-                int itemDiscountedPrice = (itemPrice - discountAmount * quantity);
-
-                totalPrice += itemPrice;
-                totalDiscountedPrice += itemDiscountedPrice;
+                totalPrice += itemPrice.intValue();
+                totalDiscountedPrice += itemDiscountedPrice.intValue();
             }
             finalPrice = totalPrice - totalDiscountedPrice;
 
