@@ -11,6 +11,9 @@ import java.io.PrintWriter;
 import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.util.Base64;
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -97,7 +100,15 @@ public class ResetPasswordEmailValidation extends HttpServlet {
 
             // Generate the reset link
             String resetPasswordURL = request.getContextPath() + "/resetpwd?token=" + token;
-            message = "Password reset instructions will be sent to this email address. <script>console.log('Reset link: " + resetPasswordURL + "');</script>";
+
+            // Send the email
+            boolean emailSent = sendEmail(email, resetPasswordURL);
+
+            if (emailSent) {
+                message = "Password reset instructions have been sent to your email address.";
+            } else {
+                message = "Failed to send password reset instructions. Please try again later.";
+            }
         } else {
             message = "Sorry, we can't find your account.";
         }
@@ -107,13 +118,40 @@ public class ResetPasswordEmailValidation extends HttpServlet {
 
         // Forward to the result JSP page
         request.getRequestDispatcher("/result.jsp").forward(request, response);
-}
+    }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+    private boolean sendEmail(String recipient, String resetPasswordURL) {
+        final String username = "youremail@address.com";
+        final String password = "thisisforthepassword";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(username));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+            message.setSubject("Password Reset Request");
+            message.setText("To reset your password, please click the link below:\n" + resetPasswordURL);
+
+            Transport.send(message);
+            return true;
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     @Override
     public String getServletInfo() {
         return "Short description";
